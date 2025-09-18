@@ -55,6 +55,20 @@ const handleGetRequest = (req, res) => {
                 res.end(data, "utf-8");
             });
         } break;
+		case req.url.includes(".ico"): {
+            fs.readFile("./favicon.ico", (err, data) => {
+                if (err && err.code === "ENOENT") {
+                    console.log("\x1b[35m", "file not found\n", err.message, "\n", "\x1b[00m");
+                    res.writeHead(404, "not found");
+                    return res.end("not found");
+                }
+
+                const headers = { "Content-Type": "image/vnd.microsoft.icon" };
+
+                res.writeHead(200, headers);
+                res.end(data, "utf-8");
+            });
+		} break;
         default: {
             console.log("\x1b[35m", `[ERROR]: not found ${req.url}`, "\x1b[00m");
             res.writeHead(404);
