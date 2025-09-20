@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	  "start": "$BROWSER 'http://localhost:6969' && node ./server.mjs"
+	  "start": "$BROWSER 'http://localhost:6969?dev=true' && node ./server.mjs"
   },
   "repository": {
     "type": "git",
