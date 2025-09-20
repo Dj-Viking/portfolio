@@ -41,6 +41,21 @@ const handleGetRequest = (req, res) => {
 
         } break;
 
+		case req.url.includes("/?"): {
+            fs.readFile("./index.html", (err, data) => {
+                if (err && err.code === "ENOENT") {
+                    console.log("\x1b[35m", "file not found\n", err.message, "\n", "\x1b[00m");
+                    res.writeHead(404, "not found");
+                    return res.end("not found");
+                }
+
+                const headers = { "Content-Type": "text/html" };
+
+                res.writeHead(200, headers);
+                res.end(data, "utf-8");
+            });
+		} break;
+
         case req.url === "/": {
             fs.readFile("./index.html", (err, data) => {
                 if (err && err.code === "ENOENT") {
