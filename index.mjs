@@ -7,9 +7,9 @@ import { WS_PORT } from "./common.mjs";
 		ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 	}
 
-    let app = await import("./app.mjs");
-	let styles = await import("./styles.mjs");
-	let designTools = await import("./designTools.mjs");
+    let app             = await import("./app.mjs");
+	let styles          = await import("./styles.mjs");
+	let designTools     = await import("./designTools.mjs");
 	let localStorageMod = await import("./localStorage.mjs");
     
 	if (window.location.href.includes("localhost")) {
