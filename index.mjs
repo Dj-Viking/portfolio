@@ -23,7 +23,8 @@ import { WS_PORT } from "./common.mjs";
 				app.main(
 					app,
 					styles,
-					designTools
+					designTools,
+					localStorageMod
 				);
 			}
 		});
@@ -32,7 +33,8 @@ import { WS_PORT } from "./common.mjs";
     app.main(
         app,
 		styles,
-		designTools
+		designTools,
+		localStorageMod
     );
 
 })();

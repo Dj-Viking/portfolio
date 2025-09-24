@@ -2,6 +2,7 @@
 let stylesModule;
 let designToolsModule;
 let localStorageModule;
+let myLocalStorage;
 
 const body = document.body;
 
@@ -27,7 +28,7 @@ function ContentSection() {
 	// or some video media
 
 	// TODO: gradient?
-	this.el.style.backgroundColor = "#2F84D0";
+	// this.el.style.backgroundColor = "#2F84D0";
 
 	return this;
 }
@@ -44,6 +45,12 @@ function NavBar() {
 	return this;
 } 
 
+function ContactSection() {
+	this.el = document.createElement("div");
+	return this;
+}
+
+
 function Footer() {
 	this.el = document.createElement("div");
 
@@ -59,14 +66,18 @@ const nav     = new NavBar();
 const footer  = new Footer();
 const content = new ContentSection();
 
+// TODO: fix styling for button hovering
 const NavButtons = {
 	home:     new Button({type: "nav-li", innerText: "Home"}),
 	about:    new Button({type: "nav-li", innerText: "About"}),
 	projects: new Button({type: "nav-li", innerText: "Projects"}),
 	resume:   new Button({type: "nav-li", innerText: "Resume"}),
+	// TODO: make theme a toggle switch that transitions with a slide
+	theme:    new Button({type: "nav-li", innerText: "theme"}),
 };
 
-const FooterButtons = {
+// TODO: get images for the contact buttons
+const ContactButtons = {
 	github:   new Button({type: "normal", innerText: null, image: "image"}),
 	linkedin: new Button({type: "normal", innerText: null, image: "image"}),
 	mail:     new Button({type: "normal", innerText: null, image: "image"}),
@@ -100,6 +111,7 @@ function Button(props = {
 
 	if (props.type === "nav-li") {
 		this.el                       = document.createElement("li");
+		this.el.style.listStyle       = "none"
 		this.el.style.backgroundColor = "#2F84D0"
 		this.el.style.borderRadius    = "10px";
 		this.el.style.border          = "solid 1px black";
@@ -123,21 +135,66 @@ function Button(props = {
 			this.el.innerText = props.innerText ?? "test";
 		} else {
 			this.el.innerText = props.innerText ?? "test";
-			setupButtonClickHandler(this, "nav");
+			setupButtonClickHandler(this, "nav-li");
 		}
 	}
 
 	return this;
 }
 
+/** 
+ * @param theme {"dark" | "light"} dark or light theme
+ * */
+function changeTheme(theme = null) {
+
+	const globalThemeEl = document.head.parentElement;
+
+	globalThemeEl.setAttribute(
+		"data-theme", 
+		theme
+	);
+	
+	myLocalStorage.request({
+		method: "set",
+		key: "theme",
+		val: theme,
+	});
+}
+
+function toggleTheme() {
+	const globalThemeEl = document.head.parentElement;
+	const newTheme = (
+		globalThemeEl.getAttribute(
+			"data-theme"
+		) === "light" 
+			? "dark" 
+			: "light"
+	);
+
+	globalThemeEl.setAttribute(
+		"data-theme", 
+		newTheme
+	);
+
+	myLocalStorage.request({
+		method: "set",
+		key: "theme",
+		val: newTheme,
+	});
+}
+
 // main setup
 function setupButtonClickHandler(
 	button, 
 	type = "normal", 
-	handler = (e) => { console.log(e) }
 ) {
 	if (type === "nav-li") {
 		switch(button.innerText) {
+			case "theme": {
+				button.el.addEventListener("click", (e) => {
+					toggleTheme();
+				});
+			} break;
 			case "Home": {
 				button.el.addEventListener("click", (e) => {
 					buildHomePage();
@@ -162,6 +219,16 @@ function initStyles() {
 	console.log("init styles", styles);
 	document.head.parentElement.setAttribute("data-theme", "light");
 	document.head.appendChild(styles.tag);
+
+	const userTheme = myLocalStorage.request({
+		method: "get",
+		key: "theme"
+	});
+
+	if (userTheme !== null) 
+	{
+		changeTheme(userTheme);
+	}
 }
 
 // TODO: add the light/dark theme toggle
@@ -171,12 +238,14 @@ function setupNav() {
 
 	const headerSemantic = document.createElement("header");
 	const ulSemantic = document.createElement("ul");
+	const liThemeButton = document.createElement("li");
 	headerSemantic.appendChild(nav.el);
+	liThemeButton.innerText = "test";
+	liThemeButton.style.listStyle = "none";
 
 	for (const li of Object.values(NavButtons)) {
 		nav.el.appendChild(li.el);
 	}
-
 
 	body.appendChild(headerSemantic);
 }
@@ -190,7 +259,7 @@ function setupDesignTools(designToolsModule) {
 // TODO: use footer for the copyright stuff
 // // make separate thing for contact for these buttons
 function setupFooter() {
-	for (const li of Object.values(FooterButtons)) {
+	for (const li of Object.values(ContactButtons)) {
 		footer.el.appendChild(li.el);
 	}
 
@@ -252,11 +321,19 @@ export function main(
 	localStorageMod
 ) {
 	localStorageModule = localStorageMod;
+	myLocalStorage     = new localStorageModule.LocalStorage();
 	stylesModule       = stylesMod;
 	designToolsModule  = designToolsMod;
 
 	initStyles();
 	buildHomePage();
+
+	myLocalStorage.init(false, {
+		theme: {
+			key: "theme",
+			val: "dark"
+		}
+	});
 
 	if (window.location.href.includes("?dev=true")) 
 	{
