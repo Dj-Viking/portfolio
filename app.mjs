@@ -171,10 +171,7 @@ function toggleTheme() {
 			: "light"
 	);
 
-	globalThemeEl.setAttribute(
-		"data-theme", 
-		newTheme
-	);
+	changeTheme(newTheme);
 
 	myLocalStorage.request({
 		method: "set",
