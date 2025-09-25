@@ -4,8 +4,15 @@ let designToolsModule;
 let localStorageModule;
 let myLocalStorage;
 let svgModule;
+
+let ContactButtons;
+
 let sunSvg;
 let moonSvg;
+let githubSvg;
+let githubDarkModeSvg;
+
+let logo;
 
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
@@ -21,8 +28,10 @@ function ContentSection() {
 	const h1Semantic = document.createElement("h1");
 	const pSemantic = document.createElement("p");
 
-	h1Semantic.innerText = "test";
-	pSemantic.innerText = "test p";
+	// hero
+	h1Semantic.innerText = "Anders Ackerman";
+	pSemantic.innerText = "Software Engineer";
+
 	divContainer.appendChild(h1Semantic);
 	divContainer.appendChild(pSemantic);
 
@@ -39,7 +48,9 @@ function ContentSection() {
 
 function Logo() {
 	this.el = document.createElement("div");
-	this.el.innerText = "logo";
+	this.el.appendChild(
+		new svgModule.Svg("./images/sun.svg").imageEl
+	);
 	this.el.classList.add("logo");
 	return this;
 }
@@ -64,7 +75,6 @@ function Footer() {
 	return this;
 }
 
-const logo    = new Logo();
 const nav     = new NavBar();
 const footer  = new Footer();
 const content = new ContentSection();
@@ -78,13 +88,12 @@ const NavButtons = {
 	theme:    new Button({type: "nav-li", innerText: "theme",    id: "theme" }),
 };
 
-// TODO: get images for the contact buttons
-const ContactButtons = {
-	github:   new Button({id: "github",   type: "normal", innerText: null, image: "image"}),
-	linkedin: new Button({id: "linkedin", type: "normal", innerText: null, image: "image"}),
-	mail:     new Button({id: "mail",     type: "normal", innerText: null, image: "image"}),
-	twitch:   new Button({id: "twitch",   type: "normal", innerText: null, image: "image"}),
+function isLight(theme = null) {
+	if (theme) return theme;
+	return globalThemeEl.getAttribute("data-theme") === "light";
 }
+
+// TODO: get images for the contact buttons
 
 function Button(props = {
 	type:      "normal", 
@@ -99,7 +108,7 @@ function Button(props = {
 	if (props.type === "normal") {
 		this.el                       = document.createElement("a");
 		this.el.id                    = props.id;
-		this.el.innerText             = props.innerText ?? "test";
+		// this.el.innerText             = props.innerText ?? "test";
 		this.el.classList.add("contactbtn");
 		this.el.style.borderRadius    = "10px";
 		// this.el.style.border          = "solid 1px black";
@@ -107,9 +116,10 @@ function Button(props = {
 		// this.el.style.backgroundColor = "#84D02F"
 		this.el.style.padding         = "5px";
 
-		if (props.image !== null) {
+		if (props.image instanceof svgModule.Svg) {
+			this.el.innerText = "";
 			// TODO: create image or svg element and append here with the content
-			this.el.innerText = props.image;
+			this.el.appendChild(this.image.imageEl);
 		}
 		setupButtonClickHandler(this, "normal");
 	}
@@ -175,13 +185,21 @@ function changeTheme(theme = null) {
 		theme
 	);
 
-	// update emojis
+	// update switch images
 	if (theme === "light") {
-		sunSvg.image.style.display = "none";
-		moonSvg.image.style.display = "block";
+		sunSvg.imageEl.style.display = "none";
+		moonSvg.imageEl.style.display = "block";
+		if (ContactButtons) {
+			ContactButtons.github.image = new svgModule.Svg("./images/github-mark.svg", 40, 40);
+			buildHomePage();
+		}
 	} else {
-		sunSvg.image.style.display = "block";
-		moonSvg.image.style.display = "none";
+		sunSvg.imageEl.style.display = "block";
+		moonSvg.imageEl.style.display = "none";
+		if (ContactButtons) {
+			ContactButtons.github.image = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
+			buildHomePage();
+		}
 	}
 	
 	myLocalStorage.request({
@@ -255,21 +273,21 @@ function initStyles() {
 	}
 }
 
-function setupImages() {
+function setupImagesForDOM() {
 	NavButtons.theme.el.innerText = "";	
 
 	if (globalThemeEl.getAttribute("data-theme") === "light") {
-		sunSvg.image.style.display = "none";
+		sunSvg.imageEl.style.display = "none";
 	} else {
-		sunSvg.image.style.display = "block";
+		sunSvg.imageEl.style.display = "block";
 	}
 
 	NavButtons.theme.el.appendChild(
-		sunSvg.image
+		sunSvg.imageEl
 	);
 
 	NavButtons.theme.el.appendChild(
-		moonSvg.image
+		moonSvg.imageEl
 	);
 }
 
@@ -282,7 +300,6 @@ function setupNav() {
 	const ulSemantic = document.createElement("ul");
 	const liThemeButton = document.createElement("li");
 	headerSemantic.appendChild(nav.el);
-	liThemeButton.innerText = "test";
 	liThemeButton.style.listStyle = "none";
 
 	for (const li of Object.values(NavButtons)) {
@@ -301,15 +318,40 @@ function setupDesignTools() {
 // TODO: use footer for the copyright stuff
 // // make separate thing for contact for these buttons
 function setupFooter() {
-	for (const li of Object.values(ContactButtons)) {
-		footer.el.appendChild(li.el);
+}
+
+// init contact buttons
+function setupContact() {
+
+	// TODO: finish putting in the other svgs
+	ContactButtons = {
+		    github:   new Button({id: "github",   type: "normal", innerText: null,
+                                  image: isLight() ? githubSvg : githubDarkModeSvg
+
+        }), linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
+                                  image: "image"
+
+		}), mail:     new Button({id: "mail",     type: "normal", innerText: null,
+                                  image: "image"
+
+		}), twitch:   new Button({id: "twitch",   type: "normal", innerText: null,
+                                  image: "image"
+
+		}),
 	}
 
-	const footerSemantic = document.createElement("footer");
+	const contactFooter = document.createElement("nav");
+	contactFooter.classList.add("contact");
 
-	footerSemantic.appendChild(footer.el);
+	for (const li of Object.values(ContactButtons)) {
+		li.el.classList.add("navfooterli");
+		contactFooter.appendChild(li.el);
+	}
 
-	body.appendChild(footerSemantic);
+
+	contactFooter.appendChild(footer.el);
+
+	body.appendChild(contactFooter);
 }
 
 function setupHomePageContent() {
@@ -323,7 +365,12 @@ function setupAboutPageContent() {
 
 // TODO:
 function setupProjectsPageContent() {
-	body.appendChild(content.el);
+	console.log("build aboutpage");
+	body.innerHTML = "";
+
+	setupNav();
+	setupAboutPageContent();
+	setupFooter();
 }
 
 function buildHomePage() {
@@ -332,16 +379,7 @@ function buildHomePage() {
 
 	setupNav();
 	setupHomePageContent();
-	setupFooter();
-
-}
-
-function buildAboutPage() {
-	console.log("build aboutpage");
-	body.innerHTML = "";
-
-	setupNav();
-	setupAboutPageContent();
+	setupContact();
 	setupFooter();
 }
 
@@ -356,8 +394,13 @@ function buildProjectsPage() {
 }
 
 function initImages() {
-	sunSvg  = new svgModule.Svg("./images/Emoji_u2600.svg", 40, 40);
-	moonSvg = new svgModule.Svg("./images/moon.svg",        40, 40);
+	sunSvg            = new svgModule.Svg("./images/sun.svg",         40, 40);
+	moonSvg           = new svgModule.Svg("./images/moon.svg",        40, 40);
+	githubSvg         = new svgModule.Svg("./images/github-mark.svg", 40, 40);
+	githubDarkModeSvg = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
+
+	logo = new Logo();
+
 }
 
 // main
@@ -383,8 +426,8 @@ export function main(
 
 	initImages();
 	initStyles();
+	setupImagesForDOM();
 	buildHomePage();
-	setupImages();
 
 	if (window.location.href.includes("?dev=true")) 
 	{

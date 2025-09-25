@@ -95,6 +95,10 @@ export function Styles() {
 	  transition: color 0.3s ease;
 	  border: 2px solid var(--border);
 	}
+	.navfooterli {
+	  transition: color 0.3s ease;
+	  border: 2px solid var(--border);
+	}
 	.navulli:hover {
 	  color: var(--primary-light);
 	}
@@ -206,7 +210,7 @@ export function Styles() {
 	/* ===== Contact Section ===== */
 	.contact {
 	  padding: 3rem 2rem;
-	  background: var(--nav-bg);
+	  background: var(--bg);
 	  color: var(--nav-text);
 	  text-align: center;
 	  transition: background 0.2s ease, color 0.3s ease;
@@ -214,14 +218,6 @@ export function Styles() {
 	.contact p {
 	  margin-bottom: 2rem;
 	  color: var(--text-muted);
-	}
-	.contact a.btn {
-	  background: var(--primary-light);
-	  padding: 0.75rem 1.5rem;
-	  border-radius: 30px;
-	  display: inline-block;
-	  transition: background 0.3s ease;
-	  color: #fff;
 	}
 	.contact a.btn:hover {
 	  background: var(--primary);
