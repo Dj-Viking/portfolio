@@ -176,7 +176,7 @@ function changeTheme(theme = null) {
 	);
 
 	// update emojis
-	if (globalThemeEl.getAttribute("data-theme") === "light") {
+	if (theme === "light") {
 		sunSvg.image.style.display = "none";
 		moonSvg.image.style.display = "block";
 	} else {
