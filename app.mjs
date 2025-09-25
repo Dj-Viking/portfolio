@@ -3,11 +3,15 @@ let stylesModule;
 let designToolsModule;
 let localStorageModule;
 let myLocalStorage;
+let svgModule;
+let sunSvg;
+let moonSvg;
 
 const body = document.body;
+const globalThemeEl = document.head.parentElement;
 
-const navButtonColor    = "#2F84D0";
-const normalButtonColor = "#84D02F";
+// const navButtonColor    = "#2F84D0";
+// const normalButtonColor = "#84D02F";
 
 function ContentSection() {
 	this.el = document.createElement("section");
@@ -43,13 +47,12 @@ function Logo() {
 function NavBar() {
 	this.el = document.createElement("nav");
 	return this;
-} 
+}
 
 function ContactSection() {
 	this.el = document.createElement("div");
 	return this;
 }
-
 
 function Footer() {
 	this.el = document.createElement("div");
@@ -68,24 +71,24 @@ const content = new ContentSection();
 
 // TODO: fix styling for button hovering
 const NavButtons = {
-	home:     new Button({type: "nav-li", innerText: "Home"}),
-	about:    new Button({type: "nav-li", innerText: "About"}),
-	projects: new Button({type: "nav-li", innerText: "Projects"}),
-	resume:   new Button({type: "nav-li", innerText: "Resume"}),
-	// TODO: make theme a toggle switch that transitions with a slide
-	theme:    new Button({type: "nav-li", innerText: "theme"}),
+	home:     new Button({type: "nav-li", innerText: "Home",     id: "Home" }),
+	about:    new Button({type: "nav-li", innerText: "About",    id: "About" }),
+	projects: new Button({type: "nav-li", innerText: "Projects", id: "Projects" }),
+	resume:   new Button({type: "nav-li", innerText: "Resume",   id: "Resume" }),
+	theme:    new Button({type: "nav-li", innerText: "theme",    id: "theme" }),
 };
 
 // TODO: get images for the contact buttons
 const ContactButtons = {
-	github:   new Button({type: "normal", innerText: null, image: "image"}),
-	linkedin: new Button({type: "normal", innerText: null, image: "image"}),
-	mail:     new Button({type: "normal", innerText: null, image: "image"}),
-	twitch:   new Button({type: "normal", innerText: null, image: "image"}),
+	github:   new Button({id: "github",   type: "normal", innerText: null, image: "image"}),
+	linkedin: new Button({id: "linkedin", type: "normal", innerText: null, image: "image"}),
+	mail:     new Button({id: "mail",     type: "normal", innerText: null, image: "image"}),
+	twitch:   new Button({id: "twitch",   type: "normal", innerText: null, image: "image"}),
 }
 
 function Button(props = {
 	type:      "normal", 
+	id:        "test" + Math.random() * 1000,
 	innerText: null, 
 	image:     null,
 }) {
@@ -95,11 +98,13 @@ function Button(props = {
 
 	if (props.type === "normal") {
 		this.el                       = document.createElement("a");
+		this.el.id                    = props.id;
 		this.el.innerText             = props.innerText ?? "test";
+		this.el.classList.add("contactbtn");
 		this.el.style.borderRadius    = "10px";
-		this.el.style.border          = "solid 1px black";
+		// this.el.style.border          = "solid 1px black";
 		this.el.style.cursor          = "pointer";
-		this.el.style.backgroundColor = "#84D02F"
+		// this.el.style.backgroundColor = "#84D02F"
 		this.el.style.padding         = "5px";
 
 		if (props.image !== null) {
@@ -111,21 +116,39 @@ function Button(props = {
 
 	if (props.type === "nav-li") {
 		this.el                       = document.createElement("li");
-		this.el.style.listStyle       = "none"
-		this.el.style.backgroundColor = "#2F84D0"
+		this.el.id                    = props.id;
+		this.el.style.listStyle       = "none";
+		this.el.classList.add("navulli");
+		// this.el.style.backgroundColor = "#2F84D0";
 		this.el.style.borderRadius    = "10px";
-		this.el.style.border          = "solid 1px black";
-		this.el.style.color           = "white";
+		// this.el.style.border          = "solid 1px black";
+		// this.el.style.color           = "white";
 		this.el.style.padding         = "5px";
 		this.el.style.textDecoration  = "none";
 		this.el.style.cursor          = "pointer";
 
-		if (props.innerText === "Resume") {
+		if (props.id === "theme") {
+			this.el                       = document.createElement("li");
+			this.el.id                   = props.id;
+			this.el.classList.add("theme-toggle");
+			this.el.style.listStyle       = "none";
+			// this.el.style.backgroundColor = "#2F84D0";
+			// this.el.style.borderRadius    = "10px";
+			// this.el.style.border          = "solid 1px black";
+			// this.el.style.color           = "white";
+			this.el.style.padding         = "5px";
+			this.el.style.textDecoration  = "none";
+			this.el.style.cursor          = "pointer";
+		}
+
+		if (props.id === "Resume") {
 			this.el                       = document.createElement("a");
-			this.el.style.backgroundColor = "#2F84D0"
+			this.el.id                    = props.id; 
+			this.el.classList.add("navulli");
+			// this.el.style.backgroundColor = "#2F84D0"
 			this.el.style.borderRadius    = "10px";
-			this.el.style.border          = "solid 1px black";
-			this.el.style.color           = "white";
+			// this.el.style.border          = "solid 1px black";
+			// this.el.style.color           = "white";
 			this.el.style.padding         = "5px";
 			this.el.style.textDecoration  = "none";
 			this.el.style.cursor          = "pointer";
@@ -147,12 +170,19 @@ function Button(props = {
  * */
 function changeTheme(theme = null) {
 
-	const globalThemeEl = document.head.parentElement;
-
 	globalThemeEl.setAttribute(
 		"data-theme", 
 		theme
 	);
+
+	// update emojis
+	if (globalThemeEl.getAttribute("data-theme") === "light") {
+		sunSvg.image.style.display = "none";
+		moonSvg.image.style.display = "block";
+	} else {
+		sunSvg.image.style.display = "block";
+		moonSvg.image.style.display = "none";
+	}
 	
 	myLocalStorage.request({
 		method: "set",
@@ -162,11 +192,8 @@ function changeTheme(theme = null) {
 }
 
 function toggleTheme() {
-	const globalThemeEl = document.head.parentElement;
 	const newTheme = (
-		globalThemeEl.getAttribute(
-			"data-theme"
-		) === "light" 
+		globalThemeEl.getAttribute( "data-theme") === "light" 
 			? "dark" 
 			: "light"
 	);
@@ -186,7 +213,7 @@ function setupButtonClickHandler(
 	type = "normal", 
 ) {
 	if (type === "nav-li") {
-		switch(button.innerText) {
+		switch(button.el.id) {
 			case "theme": {
 				button.el.addEventListener("click", (e) => {
 					toggleTheme();
@@ -214,7 +241,7 @@ function setupButtonClickHandler(
 function initStyles() {
 	const styles = new stylesModule.Styles();
 	console.log("init styles", styles);
-	document.head.parentElement.setAttribute("data-theme", "light");
+	document.head.parentElement.setAttribute("data-theme", "dark");
 	document.head.appendChild(styles.tag);
 
 	const userTheme = myLocalStorage.request({
@@ -226,6 +253,24 @@ function initStyles() {
 	{
 		changeTheme(userTheme);
 	}
+}
+
+function setupImages() {
+	NavButtons.theme.el.innerText = "";	
+
+	if (globalThemeEl.getAttribute("data-theme") === "light") {
+		sunSvg.image.style.display = "none";
+	} else {
+		sunSvg.image.style.display = "block";
+	}
+
+	NavButtons.theme.el.appendChild(
+		sunSvg.image
+	);
+
+	NavButtons.theme.el.appendChild(
+		moonSvg.image
+	);
 }
 
 // TODO: add the light/dark theme toggle
@@ -247,7 +292,7 @@ function setupNav() {
 	body.appendChild(headerSemantic);
 }
 
-function setupDesignTools(designToolsModule) {
+function setupDesignTools() {
 	const dt = new designToolsModule.DesignTools();
 	dt.drawWheel();
 	body.parentElement.appendChild(dt.el);
@@ -310,20 +355,24 @@ function buildProjectsPage() {
 
 }
 
+function initImages() {
+	sunSvg  = new svgModule.Svg("./images/Emoji_u2600.svg");
+	moonSvg = new svgModule.Svg("./images/moon.svg");
+}
+
 // main
 export function main(
 	_appModule,
 	stylesMod,
 	designToolsMod,
-	localStorageMod
+	localStorageMod,
+	svgMod
 ) {
 	localStorageModule = localStorageMod;
+	svgModule          = svgMod;
 	myLocalStorage     = new localStorageModule.LocalStorage();
 	stylesModule       = stylesMod;
 	designToolsModule  = designToolsMod;
-
-	initStyles();
-	buildHomePage();
 
 	myLocalStorage.init(false, {
 		theme: {
@@ -331,6 +380,11 @@ export function main(
 			val: "dark"
 		}
 	});
+
+	initImages();
+	initStyles();
+	buildHomePage();
+	setupImages();
 
 	if (window.location.href.includes("?dev=true")) 
 	{

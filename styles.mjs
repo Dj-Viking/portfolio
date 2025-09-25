@@ -5,31 +5,42 @@ export function Styles() {
   <style>
 	/* ===== Theme Variables ===== */
 	:root {
-	  --bg: #f9fafb;
-	  --text: #333;
-	  --text-muted: #555;
-	  --primary: #1f6feb;
+	  --bg:            #f9fafb;
+	  --text:          #333;
+	  --border:        #000000;
+	  --text-muted:    #555;
+	  --primary:       #1f6feb;
 	  --primary-light: #58a6ff;
-	  --card-bg: #fff;
-	  --nav-bg: #0d1117;
-	  --nav-text: #f0f6fc;
-	  --footer-bg: #0d1117;
-	  --footer-text: #8b949e;
-	  --section-alt: #fff;
+	  --card-bg:       #fff;
+	  --nav-bg:        #0d1117;
+	  --nav-text:      #f0f6fc;
+	  --footer-bg:     #0d1117;
+	  --footer-text:   #8b949e;
+	  --section-alt:   #fff;
 	}
+
+	html[data-theme="light"] {
+	  --primary:       #1f6feb;
+	  --primary-light: #58a6ff;
+	  --card-bg:       #fff;
+	  --border:        #000000;
+	}
+	
 	html[data-theme="dark"] {
-	  --bg: #0d1117;
-	  --text: #f0f6fc;
-	  --text-muted: #c9d1d9;
-	  --primary: #58a6ff;
+	  --bg:            #0d1117;
+	  --text:          #f0f6fc;
+	  --text-muted:    #c9d1d9;
+	  --primary:       #58a6ff;
 	  --primary-light: #1f6feb;
-	  --card-bg: #161b22;
-	  --nav-bg: #161b22;
-	  --nav-text: #f0f6fc;
-	  --footer-bg: #0d1117;
-	  --footer-text: #8b949e;
-	  --section-alt: #161b22;
+	  --border:        #ffffff;
+	  --card-bg:       #161b22;
+	  --nav-bg:        #161b22;
+	  --nav-text:      #f0f6fc;
+	  --footer-bg:     #0d1117;
+	  --footer-text:   #8b949e;
+	  --section-alt:   #161b22;
 	}
+
 
 	/* ===== Global Styles ===== */
 	* {
@@ -42,7 +53,7 @@ export function Styles() {
 	  background: var(--bg);
 	  color: var(--text);
 	  line-height: 1.6;
-	  transition: background 0.3s, color 0.3s;
+	  transition: background 0.2s, color 0.3s;
 	}
 	a {
 	  text-decoration: none;
@@ -80,21 +91,22 @@ export function Styles() {
 	  list-style: none;
 	  align-items: center;
 	}
-	nav ul li a {
-	  transition: color 0.2s ease;
+	.navulli {
+	  transition: color 0.3s ease;
+	  border: 2px solid var(--border);
 	}
-	nav ul li a:hover {
+	.navulli:hover {
 	  color: var(--primary-light);
 	}
 	.theme-toggle {
 	  cursor: pointer;
 	  background: none;
-	  border: 2px solid var(--primary-light);
+	  border: 2px solid var(--border);
 	  color: var(--primary-light);
 	  padding: 0.4rem 0.8rem;
-	  border-radius: 20px;
+	  border-radius: 50%;
 	  font-size: 0.9rem;
-	  transition: background 0.3s ease, color 0.3s ease;
+	  transition: background 0.2s ease, color 0.3s ease;
 	}
 	.theme-toggle:hover {
 	  background: var(--primary-light);
@@ -110,7 +122,7 @@ export function Styles() {
 	  background: linear-gradient(135deg, var(--nav-bg), var(--section-alt));
 	  color: var(--nav-text);
 	  text-align: center;
-	  transition: background 0.3s ease;
+	  transition: background 0.2s ease;
 	}
 	.hero h1 {
 	  font-size: 2.5rem;
@@ -128,7 +140,7 @@ export function Styles() {
 	  padding: 0.75rem 1.5rem;
 	  border-radius: 30px;
 	  font-weight: bold;
-	  transition: background 0.3s ease;
+	  transition: background 0.2s ease;
 	}
 	.hero .btn:hover {
 	  background: var(--primary);
@@ -154,7 +166,7 @@ export function Styles() {
 	.projects {
 	  background: var(--section-alt);
 	  padding: 3rem 2rem;
-	  transition: background 0.3s ease;
+	  transition: background 0.2s ease;
 	}
 	.projects h2 {
 	  text-align: center;
@@ -197,7 +209,7 @@ export function Styles() {
 	  background: var(--nav-bg);
 	  color: var(--nav-text);
 	  text-align: center;
-	  transition: background 0.3s ease, color 0.3s ease;
+	  transition: background 0.2s ease, color 0.3s ease;
 	}
 	.contact p {
 	  margin-bottom: 2rem;
@@ -215,6 +227,12 @@ export function Styles() {
 	  background: var(--primary);
 	}
 
+	/* ===== Contact ===== */
+	.contactbtn {
+		border: 2px solid var(--border);
+	}
+	/* ===== Contact ===== */
+
 	/* ===== Footer ===== */
 	footer {
 	  background: var(--footer-bg);
@@ -222,7 +240,7 @@ export function Styles() {
 	  text-align: center;
 	  padding: 1.5rem;
 	  font-size: 0.9rem;
-	  transition: background 0.3s ease, color 0.3s ease;
+	  transition: background 0.2s ease, color 0.3s ease;
 	}
 
 	/* ===== Responsive Tweaks ===== */
