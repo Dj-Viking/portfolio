@@ -356,8 +356,8 @@ function buildProjectsPage() {
 }
 
 function initImages() {
-	sunSvg  = new svgModule.Svg("./images/Emoji_u2600.svg");
-	moonSvg = new svgModule.Svg("./images/moon.svg");
+	sunSvg  = new svgModule.Svg("./images/Emoji_u2600.svg", 40, 40);
+	moonSvg = new svgModule.Svg("./images/moon.svg", 40, 40);
 }
 
 // main
