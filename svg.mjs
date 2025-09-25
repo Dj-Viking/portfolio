@@ -5,5 +5,3 @@ export function Svg(src = "", h = 40, w = 40) {
 	this.image.src = src;
 	return this;
 }
-
-
