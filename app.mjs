@@ -8,6 +8,8 @@ let svgModule;
 let ContactButtons;
 
 let sunSvg;
+let twitchDarkSvg;
+let twitchLightSvg;
 let moonSvg;
 let githubSvg;
 let githubDarkModeSvg;
@@ -191,6 +193,7 @@ function changeTheme(theme = null) {
 		moonSvg.imageEl.style.display = "block";
 		if (ContactButtons) {
 			ContactButtons.github.image = new svgModule.Svg("./images/github-mark.svg", 40, 40);
+			ContactButtons.twitch.image = new svgModule.Svg("./images/twitch-dark.svg", 40, 40);
 			buildHomePage();
 		}
 	} else {
@@ -198,6 +201,7 @@ function changeTheme(theme = null) {
 		moonSvg.imageEl.style.display = "none";
 		if (ContactButtons) {
 			ContactButtons.github.image = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
+			ContactButtons.twitch.image = new svgModule.Svg("./images/twitch-white.svg", 40, 40);
 			buildHomePage();
 		}
 	}
@@ -325,19 +329,22 @@ function setupContact() {
 
 	// TODO: finish putting in the other svgs
 	ContactButtons = {
-		    github:   new Button({id: "github",   type: "normal", innerText: null,
+		github:   new Button({id: "github",   type: "normal", innerText: null,
                                   image: isLight() ? githubSvg : githubDarkModeSvg
 
-        }), linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
-                                  image: "image"
-
-		}), mail:     new Button({id: "mail",     type: "normal", innerText: null,
-                                  image: "image"
-
-		}), twitch:   new Button({id: "twitch",   type: "normal", innerText: null,
-                                  image: "image"
+        }), 
+		twitch:   new Button({id: "twitch",   type: "normal", innerText: null,
+                                  image: isLight() ? twitchDarkSvg : twitchLightSvg 
 
 		}),
+		linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
+                                  image: "image"
+
+		}), 
+		mail:     new Button({id: "mail",     type: "normal", innerText: null,
+                                  image: "image"
+
+		}), 
 	}
 
 	const contactFooter = document.createElement("nav");
@@ -398,6 +405,12 @@ function initImages() {
 	moonSvg           = new svgModule.Svg("./images/moon.svg",        40, 40);
 	githubSvg         = new svgModule.Svg("./images/github-mark.svg", 40, 40);
 	githubDarkModeSvg = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
+	twitchLightSvg    = new svgModule.Svg("./images/twitch-white.svg", 40, 40);
+	twitchDarkSvg     = new svgModule.Svg("./images/twitch-dark.svg", 40, 40);
+
+	// ContactButtons.twitch.image = new svgModule.Svg("/images/twitch-white.svg", 40, 40);
+
+	// twitchDarkSvg     = new svgModule.Svg("./images/Twitch_icon_2012.svg", 40, 40);
 
 	logo = new Logo();
 
