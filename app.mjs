@@ -119,6 +119,15 @@ function Button(props = {
 		this.el.style.padding         = "5px";
 
 		if (props.image instanceof svgModule.Svg) {
+			if (this.el.id === "twitch") {
+				this.el.href = "https://twitch.tv/djvikingsintheroad";
+				this.el.target = "_blank";
+			} 
+
+			if (this.el.id === "github") {
+				this.el.href   = "https://github.com/dj-viking";
+				this.el.target = "_blank";
+			} 
 			this.el.innerText = "";
 			// TODO: create image or svg element and append here with the content
 			this.el.appendChild(this.image.imageEl);
