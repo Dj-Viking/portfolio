@@ -15,6 +15,7 @@ let twitchLightSvg;
 let moonSvg;
 let githubSvg;
 let githubDarkModeSvg;
+let qrcodeSvg;
 
 let logo;
 
@@ -368,7 +369,7 @@ function setupContact() {
 
 		}),
 		linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
-                                  image: linkedInSvg 
+                                  image: linkedInSvg
 
 		}), 
 		mail:     new Button({id: "mail",     type: "normal", innerText: null,
@@ -438,6 +439,7 @@ function initImages() {
 	twitchDarkSvg     = new svgModule.Svg("./images/twitch-dark.svg", 40, 40);
 	linkedInSvg       = new svgModule.Svg("./images/linkedin.svg", 40, 40);
 	mailSvg           = new svgModule.Svg("./images/mail.svg", 40, 40);
+	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
 
 	// ContactButtons.twitch.image = new svgModule.Svg("/images/twitch-white.svg", 40, 40);
 
