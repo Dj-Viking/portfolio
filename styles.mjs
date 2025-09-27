@@ -2,7 +2,6 @@ export function Styles() {
 	this.tag = document.createElement("style");
 
 	this.tag.innerHTML = `
-  <style>
 	/* ===== Theme Variables ===== */
 	:root {
 	  --bg:            #f9fafb;
@@ -12,11 +11,9 @@ export function Styles() {
 	  --primary:       #1f6feb;
 	  --primary-light: #58a6ff;
 	  --card-bg:       #fff;
-	  --nav-bg:        #0d1117;
-	  --nav-text:      #f0f6fc;
 	  --footer-bg:     #0d1117;
 	  --footer-text:   #8b949e;
-	  --section-alt:   #fff;
+	  --section-alt:   #ffffff;
 	}
 
 	html[data-theme="light"] {
@@ -34,8 +31,6 @@ export function Styles() {
 	  --primary-light: #1f6feb;
 	  --border:        #ffffff;
 	  --card-bg:       #161b22;
-	  --nav-bg:        #161b22;
-	  --nav-text:      #f0f6fc;
 	  --footer-bg:     #0d1117;
 	  --footer-text:   #8b949e;
 	  --section-alt:   #161b22;
@@ -66,8 +61,8 @@ export function Styles() {
 
 	/* ===== Navbar ===== */
 	header {
-	  background: var(--nav-bg);
-	  color: var(--nav-text);
+	  background: var(--bg);
+	  color: var(--text);
 	  padding: 1rem 2rem;
 	  position: sticky;
 	  top: 0;
@@ -123,14 +118,14 @@ export function Styles() {
 	  align-items: center;
 	  justify-content: center;
 	  padding: 4rem 2rem;
-	  background: linear-gradient(135deg, var(--nav-bg), var(--section-alt));
-	  color: var(--nav-text);
+	  background: var(--section-alt);
 	  text-align: center;
 	  transition: background 0.2s ease;
 	}
 	.hero h1 {
 	  font-size: 2.5rem;
 	  margin-bottom: 1rem;
+	  color: var(--text);
 	}
 	.hero p {
 	  max-width: 600px;
@@ -209,10 +204,7 @@ export function Styles() {
 
 	/* ===== Contact Section ===== */
 	.contact {
-	  padding: 3rem 2rem;
 	  background: var(--bg);
-	  color: var(--nav-text);
-	  text-align: center;
 	  transition: background 0.2s ease, color 0.3s ease;
 	}
 	.contact p {
@@ -231,13 +223,14 @@ export function Styles() {
 
 	/* ===== Footer ===== */
 	footer {
-	  background: var(--footer-bg);
-	  color: var(--footer-text);
-	  text-align: center;
-	  padding: 1.5rem;
-	  font-size: 0.9rem;
-	  transition: background 0.2s ease, color 0.3s ease;
+		background: var(--footer-bg);
+		color: var(--footer-text);
+		text-align: center;
+		padding: 1.5rem;
+		font-size: 0.9rem;
+		transition: background 0.3s ease, color 0.3s ease;
 	}
+	/* ===== Footer ===== */
 
 	/* ===== Responsive Tweaks ===== */
 	@media (max-width: 768px) {
@@ -248,7 +241,6 @@ export function Styles() {
 		font-size: 1rem;
 	  }
 	}
-  </style>
 	`;
 
 	return this;

@@ -9,6 +9,8 @@ let ContactButtons;
 
 let sunSvg;
 let twitchDarkSvg;
+let linkedInSvg;
+let mailSvg;
 let twitchLightSvg;
 let moonSvg;
 let githubSvg;
@@ -128,6 +130,14 @@ function Button(props = {
 				this.el.href   = "https://github.com/dj-viking";
 				this.el.target = "_blank";
 			} 
+			if (this.el.id === "linkedin") {
+				this.el.href   = "https://www.linkedin.com/in/anders-ackerman-b1055061/";
+				this.el.target = "_blank";
+			}
+			if (this.el.id === "mail") {
+				this.el.href   = "mailto:anders.swedishviking@gmail.com";
+				this.el.target = "_blank";
+			}
 			this.el.innerText = "";
 			// TODO: create image or svg element and append here with the content
 			this.el.appendChild(this.image.imageEl);
@@ -273,6 +283,12 @@ function initStyles() {
 	const styles = new stylesModule.Styles();
 	console.log("init styles", styles);
 	document.head.parentElement.setAttribute("data-theme", "dark");
+
+	// clear previous style tag
+	if (document.getElementsByTagName("style")[0]) {
+		document.head.removeChild(document.getElementsByTagName("style")[0]);
+	}
+
 	document.head.appendChild(styles.tag);
 
 	const userTheme = myLocalStorage.request({
@@ -331,6 +347,11 @@ function setupDesignTools() {
 // TODO: use footer for the copyright stuff
 // // make separate thing for contact for these buttons
 function setupFooter() {
+	const footer = document.createElement("footer");
+
+	footer.innerText = "© 2025 Anders Ackerman. All rights reserved";
+
+	body.appendChild(footer);
 }
 
 // init contact buttons
@@ -347,27 +368,27 @@ function setupContact() {
 
 		}),
 		linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
-                                  image: "image"
+                                  image: linkedInSvg 
 
 		}), 
 		mail:     new Button({id: "mail",     type: "normal", innerText: null,
-                                  image: "image"
+                                  image: mailSvg 
 
 		}), 
 	}
 
-	const contactFooter = document.createElement("nav");
-	contactFooter.classList.add("contact");
+	const contactcontainer = document.createElement("section");
+	contactcontainer.style.display = "flex";
+	contactcontainer.style.flexDirection = "row";
+	contactcontainer.style.justifyContent = "space-around";
+	contactcontainer.style.padding = "1.4rem 1.8rem";
 
 	for (const li of Object.values(ContactButtons)) {
 		li.el.classList.add("navfooterli");
-		contactFooter.appendChild(li.el);
+		contactcontainer.appendChild(li.el);
 	}
 
-
-	contactFooter.appendChild(footer.el);
-
-	body.appendChild(contactFooter);
+	body.appendChild(contactcontainer);
 }
 
 function setupHomePageContent() {
@@ -385,7 +406,8 @@ function setupProjectsPageContent() {
 	body.innerHTML = "";
 
 	setupNav();
-	setupAboutPageContent();
+	setupHomePageContent();
+	setupContact();
 	setupFooter();
 }
 
@@ -405,8 +427,6 @@ function buildProjectsPage() {
 
 	setupNav();
 	setupProjectsPageContent();
-	setupFooter();
-
 }
 
 function initImages() {
@@ -416,6 +436,8 @@ function initImages() {
 	githubDarkModeSvg = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
 	twitchLightSvg    = new svgModule.Svg("./images/twitch-white.svg", 40, 40);
 	twitchDarkSvg     = new svgModule.Svg("./images/twitch-dark.svg", 40, 40);
+	linkedInSvg       = new svgModule.Svg("./images/linkedin.svg", 40, 40);
+	mailSvg           = new svgModule.Svg("./images/mail.svg", 40, 40);
 
 	// ContactButtons.twitch.image = new svgModule.Svg("/images/twitch-white.svg", 40, 40);
 
