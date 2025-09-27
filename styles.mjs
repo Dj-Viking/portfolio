@@ -223,7 +223,7 @@ export function Styles() {
 
 	/* ===== Footer ===== */
 	footer {
-		background: var(--footer-bg);
+		background: var(--bg);
 		color: var(--footer-text);
 		text-align: center;
 		padding: 1.5rem;
