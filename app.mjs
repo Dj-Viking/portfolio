@@ -185,7 +185,7 @@ function Button(props = {
 			this.el.style.textDecoration  = "none";
 			this.el.style.cursor          = "pointer";
 
-			this.el.href      = "https://docs.google.com/document/d/1qbMSl29EXZBkvwZH6blgTdRlpMsVLCYwTo5eT0pKOQc/edit?usp=sharing";
+			this.el.href      = "./docs/anders-ackerman-resume.pdf";
 			this.el.target    = "_blank";
 			this.el.innerText = props.innerText ?? "test";
 		} else {
