@@ -233,7 +233,16 @@ export function Styles() {
 	/* ===== Footer ===== */
 
 	/* ===== Responsive Tweaks ===== */
-	@media (max-width: 768px) {
+	@media screen and (max-width: 400px) {
+	  .hero h1 {
+		font-size: 4rem !important;
+	  }
+	  .about p {
+		font-size: 2rem !important;
+	  }
+	}
+
+	@media screen and (max-width: 768px) {
 	  .hero h1 {
 		font-size: 2rem;
 	  }
@@ -241,6 +250,7 @@ export function Styles() {
 		font-size: 1rem;
 	  }
 	}
+	/* ===== Responsive Tweaks ===== */
 	`;
 
 	return this;
