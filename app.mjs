@@ -186,7 +186,7 @@ function Button(props = {
 			this.el.style.cursor          = "pointer";
 
 			this.el.href      = "./docs/anders-ackerman-resume.pdf";
-			this.el.target    = "_blank";
+			this.el.download  = "";
 			this.el.innerText = props.innerText ?? "test";
 		} else {
 			this.el.innerText = props.innerText ?? "test";
