@@ -78,7 +78,6 @@ export function Styles() {
 	nav .logo {
 	  font-size: 1.5rem;
 	  font-weight: bold;
-	  color: var(--primary-light);
 	}
 	nav ul {
 	  display: flex;
@@ -234,12 +233,15 @@ export function Styles() {
 
 	/* ===== Responsive Tweaks ===== */
 	@media screen and (max-width: 400px) {
-	  .hero h1 {
-		font-size: 4rem !important;
-	  }
-	  .about p {
-		font-size: 2rem !important;
-	  }
+		header {
+			padding: 0.5rem 1rem;
+		}
+		.hero h1 {
+			font-size: 4rem !important;
+		}
+		.about p {
+			font-size: 2rem !important;
+		}
 	}
 
 	@media screen and (max-width: 768px) {

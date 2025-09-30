@@ -22,9 +22,6 @@ let logo;
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
 
-// const navButtonColor    = "#2F84D0";
-// const normalButtonColor = "#84D02F";
-
 function ContentSection() {
 	this.el = document.createElement("section");
 	this.el.classList.add("hero");
@@ -54,7 +51,7 @@ function ContentSection() {
 function Logo() {
 	this.el = document.createElement("div");
 	this.el.appendChild(
-		new svgModule.Svg("./images/sun.svg").imageEl
+		new svgModule.Svg("./images/logo.svg").imageEl
 	);
 	this.el.classList.add("logo");
 	return this;
