@@ -8,6 +8,8 @@ let svgModule;
 let ContactButtons;
 
 let sunSvg;
+let logoSvg;
+let logoSvgForLight;
 let twitchDarkSvg;
 let linkedInSvg;
 let mailSvg;
@@ -16,8 +18,6 @@ let moonSvg;
 let githubSvg;
 let githubDarkModeSvg;
 let qrcodeSvg;
-
-let logo;
 
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
@@ -51,7 +51,9 @@ function ContentSection() {
 function Logo() {
 	this.el = document.createElement("div");
 	this.el.appendChild(
-		new svgModule.Svg("./images/logo.svg").imageEl
+		globalThemeEl.getAttribute("data-theme") === "light"
+		? new svgModule.Svg("./images/logo-for-light.svg").imageEl
+		: new svgModule.Svg("./images/logo.svg").imageEl
 	);
 	this.el.classList.add("logo");
 	return this;
@@ -206,6 +208,9 @@ function changeTheme(theme = null) {
 
 	// update switch images
 	if (theme === "light") {
+
+		logoSvg.imageEl.style.display = "none";
+		logoSvgForLight.imageEl.style.display = "block";
 		sunSvg.imageEl.style.display = "none";
 		moonSvg.imageEl.style.display = "block";
 		if (ContactButtons) {
@@ -214,6 +219,8 @@ function changeTheme(theme = null) {
 			buildHomePage();
 		}
 	} else {
+		logoSvg.imageEl.style.display = "block";
+		logoSvgForLight.imageEl.style.display = "none";
 		sunSvg.imageEl.style.display = "block";
 		moonSvg.imageEl.style.display = "none";
 		if (ContactButtons) {
@@ -304,9 +311,13 @@ function setupImagesForDOM() {
 	NavButtons.theme.el.innerText = "";	
 
 	if (globalThemeEl.getAttribute("data-theme") === "light") {
-		sunSvg.imageEl.style.display = "none";
+		logoSvgForLight.imageEl.style.display = "block";
+		logoSvg.imageEl.style.display         = "none";
+		sunSvg.imageEl.style.display          = "none";
 	} else {
-		sunSvg.imageEl.style.display = "block";
+		sunSvg.imageEl.style.display          = "block";
+		logoSvg.imageEl.style.display         = "block";
+		logoSvgForLight.imageEl.style.display = "none";
 	}
 
 	NavButtons.theme.el.appendChild(
@@ -321,7 +332,9 @@ function setupImagesForDOM() {
 // TODO: add the light/dark theme toggle
 // // and add to user's local storage
 function setupNav() {
-	nav.el.appendChild(logo.el);	
+
+	nav.el.appendChild(logoSvg.imageEl);	
+	nav.el.appendChild(logoSvgForLight.imageEl);	
 
 	const headerSemantic = document.createElement("header");
 	const ulSemantic = document.createElement("ul");
@@ -437,12 +450,14 @@ function initImages() {
 	linkedInSvg       = new svgModule.Svg("./images/linkedin.svg", 40, 40);
 	mailSvg           = new svgModule.Svg("./images/mail.svg", 40, 40);
 	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
+	// logoSvg           = new Logo();
+	logoSvg           = new svgModule.Svg("./images/logo.svg", 40, 40);
+	logoSvgForLight   = new svgModule.Svg("./images/logo-for-light.svg", 40, 40);
 
 	// ContactButtons.twitch.image = new svgModule.Svg("/images/twitch-white.svg", 40, 40);
 
 	// twitchDarkSvg     = new svgModule.Svg("./images/Twitch_icon_2012.svg", 40, 40);
 
-	logo = new Logo();
 
 }
 
