@@ -116,7 +116,7 @@ export function Styles() {
 	  display: flex;
 	  align-items: center;
 	  justify-content: center;
-	  padding: 4rem 2rem;
+	  padding: 2rem 1rem;
 	  background: var(--section-alt);
 	  text-align: center;
 	  transition: background 0.2s ease;

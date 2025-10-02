@@ -9,6 +9,8 @@ let ContactButtons;
 
 let sunSvg;
 let logoSvg;
+let logo2Svg;
+let logo3Svg;
 let logoSvgForLight;
 let twitchDarkSvg;
 let linkedInSvg;
@@ -85,8 +87,8 @@ const content = new ContentSection();
 
 // TODO: fix styling for button hovering
 const NavButtons = {
-	home:     new Button({type: "nav-li", innerText: "Home",     id: "Home" }),
-	about:    new Button({type: "nav-li", innerText: "About",    id: "About" }),
+	// home:     new Button({type: "nav-li", innerText: "Home",     id: "Home" }),
+	// about:    new Button({type: "nav-li", innerText: "About",    id: "About" }),
 	projects: new Button({type: "nav-li", innerText: "Projects", id: "Projects" }),
 	resume:   new Button({type: "nav-li", innerText: "Resume",   id: "Resume" }),
 	theme:    new Button({type: "nav-li", innerText: "theme",    id: "theme" }),
@@ -452,6 +454,8 @@ function initImages() {
 	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
 	// logoSvg           = new Logo();
 	logoSvg           = new svgModule.Svg("./images/logo.svg", 40, 40);
+	// logo2Svg          = new svgModule.Svg("./images/gptlogo.svg", 200, 200);
+	// logo3Svg          = new svgModule.Svg("./images/gptlogo2.svg", 200, 200);
 	logoSvgForLight   = new svgModule.Svg("./images/logo-for-light.svg", 40, 40);
 
 	// ContactButtons.twitch.image = new svgModule.Svg("/images/twitch-white.svg", 40, 40);
