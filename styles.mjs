@@ -30,7 +30,8 @@ export function Styles() {
 	  --primary:       #58a6ff;
 	  --primary-light: #1f6feb;
 	  --border:        #ffffff;
-	  --card-bg:       #161b22;
+	  --card-bg:       #1f6feb;
+	  --prmry-crd-light: #f0f6fc
 	  --footer-bg:     #0d1117;
 	  --footer-text:   #8b949e;
 	  --section-alt:   #161b22;
@@ -182,14 +183,18 @@ export function Styles() {
 	  background: var(--card-bg);
 	  border-radius: 12px;
 	  padding: 1.5rem;
+	  /* 
 	  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+	  */
+	  box-shadow: 0 4px 8px var(--text);
 	  transition: transform 0.2s ease, background 0.3s ease;
 	}
 	.project-card:hover {
 	  transform: translateY(-5px);
 	}
 	.project-card h3 {
-	  margin-bottom: 0.5rem;
+		color: #333;
+		margin-bottom: 0.5rem;
 	}
 	.project-card p {
 	  font-size: 0.95rem;
@@ -197,7 +202,7 @@ export function Styles() {
 	  margin-bottom: 1rem;
 	}
 	.project-card a {
-	  color: var(--primary-light);
+	  color: var(--prmry-crd-light);
 	  font-weight: bold;
 	}
 

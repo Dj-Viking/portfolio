@@ -12,6 +12,7 @@ import { WS_PORT } from "./common.mjs";
 	let styles          = await import("./styles.mjs");
 	let designTools     = await import("./designTools.mjs");
 	let localStorageMod = await import("./localStorage.mjs");
+	let common          = await import("./common.mjs");
     
 	if (window.location.href.includes("localhost")) {
 		ws.addEventListener('message', async (event) => {
@@ -22,8 +23,10 @@ import { WS_PORT } from "./common.mjs";
 				styles          = await import("./styles.mjs"       + cachebust);
 				designTools     = await import("./designTools.mjs"  + cachebust);
 				localStorageMod = await import("./localStorage.mjs" + cachebust);
+				common          = await import("./common.mjs" + cachebust);
 				app.main(
 					app,
+					common,
 					styles,
 					designTools,
 					localStorageMod,
@@ -35,6 +38,7 @@ import { WS_PORT } from "./common.mjs";
 
     app.main(
         app,
+		common,
 		styles,
 		designTools,
 		localStorageMod,

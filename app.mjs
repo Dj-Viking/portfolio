@@ -4,8 +4,10 @@ let designToolsModule;
 let localStorageModule;
 let myLocalStorage;
 let svgModule;
+let commonModule;
 
 let ContactButtons;
+let projectSection;
 
 let sunSvg;
 let logoSvg;
@@ -23,6 +25,84 @@ let qrcodeSvg;
 
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
+
+function ProjectSection() {
+	this.el = document.createElement("section");
+	this.el.id = "projects";
+	this.el.classList.add("projects");
+
+	const h2Title = document.createElement("h2");
+	h2Title.innerText = "Projects";
+	this.el.appendChild(h2Title);
+
+	const projectgrid = document.createElement("div");
+	projectgrid.classList.add("project-grid");
+	this.el.appendChild(projectgrid);
+
+	// TODO: make background a demo video?
+	const rustvisualartcard = new ProjectCard({ 
+		titletext: "Rust Visual Art",
+		ptext    : "...",
+		// TODO: MAKE WHOLE CARD A LINK!
+		linktext : "Demo",
+		href     : commonModule.RUST_VISUAL_ART_DEMO_LINK,
+	});
+
+	const ledmatrixcard = new ProjectCard({ 
+		titletext: "LED Art Matrix",
+		ptext    : "...",
+		linktext : "Demo",
+		href     : commonModule.LED_ART_MATRIX_DEMO_LINK,
+	});
+
+	const cobolmainframecard = new ProjectCard({ 
+		titletext: "COBOL",
+		ptext    : "...",
+		linktext : "Demo",
+		href     : commonModule.COBOL_MAINFRAME_DEMO_LINK,
+	});
+
+	const projectcards = [
+		rustvisualartcard,
+		ledmatrixcard,
+		cobolmainframecard,
+	];
+
+	for (const card of projectcards) {
+		projectgrid.appendChild(card.el);
+	}
+
+	return this;
+}
+
+function ProjectCard(opts = {
+	titletext: "cardtitle",
+	ptext    : "cardp",
+	linktext : "cardp",
+    href     : "cardhref",
+}) {
+	this.el = document.createElement("div");
+	this.el.classList.add("project-card");
+
+		const cardtitle = document.createElement("h3");
+		cardtitle.innerText = opts.titletext;
+
+		const cardp     = document.createElement("p");
+		cardp.innerText     = opts.ptext;
+
+		const cardlink  = document.createElement("a");
+		cardlink.target     = "_blank";
+		cardlink.innerText  = opts.linktext;
+		cardlink.href       = opts.href;
+
+	this.el.append(
+		cardtitle,
+		cardp,
+		cardlink
+	);
+
+	return this;
+}
 
 function ContentSection() {
 	this.el = document.createElement("section");
@@ -43,9 +123,6 @@ function ContentSection() {
 
 	// TODO: canvas in the section??
 	// or some video media
-
-	// TODO: gradient?
-	// this.el.style.backgroundColor = "#2F84D0";
 
 	return this;
 }
@@ -174,6 +251,22 @@ function Button(props = {
 			this.el.style.cursor          = "pointer";
 		}
 
+		if (props.id === "Projects") {
+			this.el                       = document.createElement("a");
+			this.el.id                    = props.id; 
+			this.el.classList.add("navulli");
+			// this.el.style.backgroundColor = "#2F84D0"
+			this.el.style.borderRadius    = "10px";
+			// this.el.style.border          = "solid 1px black";
+			// this.el.style.color           = "white";
+			this.el.style.padding         = "5px";
+			this.el.style.textDecoration  = "none";
+			this.el.style.cursor          = "pointer";
+
+			this.el.href                  = "#projects";
+			this.el.innerText             = props.innerText ?? "test";
+		}
+
 		if (props.id === "Resume") {
 			this.el                       = document.createElement("a");
 			this.el.id                    = props.id; 
@@ -186,13 +279,11 @@ function Button(props = {
 			this.el.style.textDecoration  = "none";
 			this.el.style.cursor          = "pointer";
 
-			this.el.href      = "./docs/anders-ackerman-resume.pdf";
-			this.el.download  = "";
-			this.el.innerText = props.innerText ?? "test";
-		} else {
-			this.el.innerText = props.innerText ?? "test";
-			setupButtonClickHandler(this, "nav-li");
+			this.el.href                  = "./docs/anders-ackerman-resume.pdf";
+			this.el.download              = "";
+			this.el.innerText             = props.innerText ?? "test";
 		}
+		setupButtonClickHandler(this, "nav-li");
 	}
 
 	return this;
@@ -267,20 +358,9 @@ function setupButtonClickHandler(
 					toggleTheme();
 				});
 			} break;
-			case "Home": {
-				button.el.addEventListener("click", (e) => {
-					buildHomePage();
-				});
-			} break;
 			case "Projects": {
-				button.el.addEventListener("click", (e) => {
-					buildProjectsPage();
-				});
-			} break;
-			case "About": {
-				button.el.addEventListener("click", (e) => {
-					buildAboutPage();
-				});
+				// TODO: just scroll to projects section element
+				// scrollTo("projects");
 			} break;
 		}
 	}
@@ -367,6 +447,10 @@ function setupFooter() {
 	body.appendChild(footer);
 }
 
+function setupProjectsPageContent() {
+	projectSection = new ProjectSection();
+}
+
 // init contact buttons
 function setupContact() {
 
@@ -406,40 +490,19 @@ function setupContact() {
 
 function setupHomePageContent() {
 	body.appendChild(content.el);
+	body.appendChild(projectSection.el);
 }
 
-// TODO:
-function setupAboutPageContent() {
-	body.appendChild(content.el);
-}
-
-// TODO:
-function setupProjectsPageContent() {
-	console.log("build aboutpage");
-	body.innerHTML = "";
-
-	setupNav();
-	setupHomePageContent();
-	setupContact();
-	setupFooter();
-}
 
 function buildHomePage() {
 	console.log("build homepage");
 	body.innerHTML = "";
 
 	setupNav();
+	setupProjectsPageContent();
 	setupHomePageContent();
 	setupContact();
 	setupFooter();
-}
-
-function buildProjectsPage() {
-	console.log("build projects page");
-	body.innerHTML = "";
-
-	setupNav();
-	setupProjectsPageContent();
 }
 
 function initImages() {
@@ -468,6 +531,7 @@ function initImages() {
 // main
 export function main(
 	_appModule,
+	commonMod,
 	stylesMod,
 	designToolsMod,
 	localStorageMod,
@@ -475,6 +539,7 @@ export function main(
 ) {
 	localStorageModule = localStorageMod;
 	svgModule          = svgMod;
+	commonModule       = commonMod;
 	myLocalStorage     = new localStorageModule.LocalStorage();
 	stylesModule       = stylesMod;
 	designToolsModule  = designToolsMod;
