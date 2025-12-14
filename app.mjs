@@ -22,6 +22,7 @@ let moonSvg;
 let githubSvg;
 let githubDarkModeSvg;
 let qrcodeSvg;
+let crossSvg;
 
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
@@ -306,21 +307,25 @@ function changeTheme(theme = null) {
 		logoSvgForLight.imageEl.style.display = "block";
 		sunSvg.imageEl.style.display = "none";
 		moonSvg.imageEl.style.display = "block";
+
 		if (ContactButtons) {
 			ContactButtons.github.image = new svgModule.Svg("./images/github-mark.svg", 40, 40);
 			ContactButtons.twitch.image = new svgModule.Svg("./images/twitch-dark.svg", 40, 40);
 			buildHomePage();
 		}
+
 	} else {
 		logoSvg.imageEl.style.display = "block";
 		logoSvgForLight.imageEl.style.display = "none";
 		sunSvg.imageEl.style.display = "block";
 		moonSvg.imageEl.style.display = "none";
+
 		if (ContactButtons) {
 			ContactButtons.github.image = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
 			ContactButtons.twitch.image = new svgModule.Svg("./images/twitch-white.svg", 40, 40);
 			buildHomePage();
 		}
+
 	}
 	
 	myLocalStorage.request({
@@ -515,17 +520,8 @@ function initImages() {
 	linkedInSvg       = new svgModule.Svg("./images/linkedin.svg", 40, 40);
 	mailSvg           = new svgModule.Svg("./images/mail.svg", 40, 40);
 	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
-	// logoSvg           = new Logo();
-	logoSvg           = new svgModule.Svg("./images/logo.svg", 40, 40);
-	// logo2Svg          = new svgModule.Svg("./images/gptlogo.svg", 200, 200);
-	// logo3Svg          = new svgModule.Svg("./images/gptlogo2.svg", 200, 200);
-	logoSvgForLight   = new svgModule.Svg("./images/logo-for-light.svg", 40, 40);
-
-	// ContactButtons.twitch.image = new svgModule.Svg("/images/twitch-white.svg", 40, 40);
-
-	// twitchDarkSvg     = new svgModule.Svg("./images/Twitch_icon_2012.svg", 40, 40);
-
-
+	logoSvg           = new svgModule.Svg("./images/logonew-light.svg", 40, 40);
+	logoSvgForLight   = new svgModule.Svg("./images/logonew-dark.svg", 40, 40);
 }
 
 // main
