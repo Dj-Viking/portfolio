@@ -84,19 +84,15 @@ function ProjectCard(opts = {
 	const cardlink  = document.createElement("a");
 	cardlink.classList.add("project-card");
 	cardlink.target       = "_blank";
-	cardlink.innerText    = opts.linktext;
+	cardlink.innerText    = opts.linktext + `\n ${opts.ptext}`;
 	cardlink.href         = opts.href;
 	cardlink.style.cursor = "pointer";
 
 	const cardtitle = document.createElement("h3");
 	cardtitle.innerText = opts.titletext;
 
-	const cardp     = document.createElement("p");
-	cardp.innerText     = opts.ptext;
-
 	cardlink.appendChild(
 		cardtitle,
-		cardp
 	);
 
 	this.el = cardlink;
