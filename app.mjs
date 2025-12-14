@@ -96,7 +96,8 @@ function ProjectCard(opts = {
 
 	cardlink.appendChild(
 		cardtitle,
-		cardp)
+		cardp
+	);
 
 	this.el = cardlink;
 
