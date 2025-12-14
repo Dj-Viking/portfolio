@@ -22,7 +22,6 @@ let moonSvg;
 let githubSvg;
 let githubDarkModeSvg;
 let qrcodeSvg;
-let crossSvg;
 
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
