@@ -44,7 +44,6 @@ function ProjectSection() {
 	const rustvisualartcard = new ProjectCard({ 
 		titletext: "Rust Visual Art",
 		ptext    : "...",
-		// TODO: MAKE WHOLE CARD A LINK!
 		linktext : "Demo",
 		href     : commonModule.RUST_VISUAL_ART_DEMO_LINK,
 	});
@@ -82,25 +81,25 @@ function ProjectCard(opts = {
 	linktext : "cardp",
     href     : "cardhref",
 }) {
-	this.el = document.createElement("div");
-	this.el.classList.add("project-card");
+	
+	const cardlink  = document.createElement("a");
+	cardlink.classList.add("project-card");
+	cardlink.target       = "_blank";
+	cardlink.innerText    = opts.linktext;
+	cardlink.href         = opts.href;
+	cardlink.style.cursor = "pointer";
 
-		const cardtitle = document.createElement("h3");
-		cardtitle.innerText = opts.titletext;
+	const cardtitle = document.createElement("h3");
+	cardtitle.innerText = opts.titletext;
 
-		const cardp     = document.createElement("p");
-		cardp.innerText     = opts.ptext;
+	const cardp     = document.createElement("p");
+	cardp.innerText     = opts.ptext;
 
-		const cardlink  = document.createElement("a");
-		cardlink.target     = "_blank";
-		cardlink.innerText  = opts.linktext;
-		cardlink.href       = opts.href;
-
-	this.el.append(
+	cardlink.appendChild(
 		cardtitle,
-		cardp,
-		cardlink
-	);
+		cardp)
+
+	this.el = cardlink;
 
 	return this;
 }
