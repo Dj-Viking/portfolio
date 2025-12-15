@@ -52,7 +52,7 @@ function ProjectSection() {
 		linktext  : "Rust with ESP32 hardware",
 		ptext     : "Manually driving GRB neopixels with Rust on ESP32-C6 SOC",
 		titletext : "Demo",
-		href      : commonModule.RUST_VISUAL_ART_DEMO_LINK,
+		href      : commonModule.RUST_NEO_PIXEL_DEMO_LINK,
 	});
 
 	const ledmatrixcard = new ProjectCard({ 
