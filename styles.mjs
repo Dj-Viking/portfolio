@@ -193,7 +193,7 @@ export function Styles() {
 	  transform: translateY(-5px);
 	}
 	.project-card h3 {
-		color: #333;
+		color: var(--text);
 		margin-bottom: 0.5rem;
 	}
 	.project-card p {

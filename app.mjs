@@ -40,29 +40,38 @@ function ProjectSection() {
 	this.el.appendChild(projectgrid);
 
 	// TODO: make background a demo video?
+	// yes!!
 	const rustvisualartcard = new ProjectCard({ 
-		titletext: "Rust Visual Art",
-		ptext    : "...",
-		linktext : "Demo",
-		href     : commonModule.RUST_VISUAL_ART_DEMO_LINK,
+		linktext  : "Rust Visual Art",
+		ptext     : "Minimal visualizer: MIDI controlled, audio reactive, realtime processing of FFT. Configurable though toml files.",
+		titletext : "Demo",
+		href      : commonModule.RUST_VISUAL_ART_DEMO_LINK,
+	});
+
+	const rustneopixelcard = new ProjectCard({ 
+		linktext  : "Rust with ESP32 hardware",
+		ptext     : "Manually driving GRB neopixels with Rust on ESP32-C6 SOC",
+		titletext : "Demo",
+		href      : commonModule.RUST_VISUAL_ART_DEMO_LINK,
 	});
 
 	const ledmatrixcard = new ProjectCard({ 
-		titletext: "LED Art Matrix",
-		ptext    : "...",
-		linktext : "Demo",
-		href     : commonModule.LED_ART_MATRIX_DEMO_LINK,
+		linktext  : "LED Art Matrix",
+		ptext     : "TypeScript React project. HTML canvas controlled by midi and audio FFT",
+		titletext : "Demo",
+		href      : commonModule.LED_ART_MATRIX_DEMO_LINK,
 	});
 
 	const cobolmainframecard = new ProjectCard({ 
-		titletext: "COBOL",
-		ptext    : "...",
-		linktext : "Demo",
-		href     : commonModule.COBOL_MAINFRAME_DEMO_LINK,
+		linktext  : "COBOL",
+		ptext     : "Studying with GNUCobol",
+		titletext : "Demo",
+		href      : commonModule.COBOL_MAINFRAME_DEMO_LINK,
 	});
 
 	const projectcards = [
 		rustvisualartcard,
+		rustneopixelcard,
 		ledmatrixcard,
 		cobolmainframecard,
 	];
@@ -84,12 +93,17 @@ function ProjectCard(opts = {
 	const cardlink  = document.createElement("a");
 	cardlink.classList.add("project-card");
 	cardlink.target       = "_blank";
-	cardlink.innerText    = opts.linktext + `\n ${opts.ptext}`;
+	cardlink.innerText    = opts.linktext + `\n - ${opts.ptext}`;
 	cardlink.href         = opts.href;
 	cardlink.style.cursor = "pointer";
+	cardlink.style.fontSize = "20px";
+	cardlink.style.fontWeight = 1000;
 
-	const cardtitle = document.createElement("h3");
+
+	const cardtitle = document.createElement("p");
 	cardtitle.innerText = opts.titletext;
+	cardtitle.style.fontSize = "unset !important";
+	cardtitle.style.fontWeight = "lighter";
 
 	cardlink.appendChild(
 		cardtitle,
@@ -493,7 +507,6 @@ function setupHomePageContent() {
 	body.appendChild(projectSection.el);
 }
 
-
 function buildHomePage() {
 	console.log("build homepage");
 	body.innerHTML = "";
@@ -515,8 +528,8 @@ function initImages() {
 	linkedInSvg       = new svgModule.Svg("./images/linkedin.svg", 40, 40);
 	mailSvg           = new svgModule.Svg("./images/mail.svg", 40, 40);
 	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
-	logoSvg           = new svgModule.Svg("./images/logonew-light.svg", 40, 40);
-	logoSvgForLight   = new svgModule.Svg("./images/logonew-dark.svg", 40, 40);
+	logoSvg           = new svgModule.Svg("./images/12-14-2025-logo.svg", 40, 40);
+	logoSvgForLight   = new svgModule.Svg("./images/12-14-2025-logo-light.svg", 40, 40);
 }
 
 // main
