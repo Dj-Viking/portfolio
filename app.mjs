@@ -172,7 +172,6 @@ const nav     = new NavBar();
 const footer  = new Footer();
 const content = new ContentSection();
 
-// TODO: fix styling for button hovering
 const NavButtons = {
 	// home:     new Button({type: "nav-li", innerText: "Home",     id: "Home" }),
 	// about:    new Button({type: "nav-li", innerText: "About",    id: "About" }),
@@ -185,8 +184,6 @@ function isLight(theme = null) {
 	if (theme) return theme;
 	return globalThemeEl.getAttribute("data-theme") === "light";
 }
-
-// TODO: get images for the contact buttons
 
 function Button(props = {
 	type:      "normal", 
@@ -228,7 +225,6 @@ function Button(props = {
 				this.el.target = "_blank";
 			}
 			this.el.innerText = "";
-			// TODO: create image or svg element and append here with the content
 			this.el.appendChild(this.image.imageEl);
 		}
 		setupButtonClickHandler(this, "normal");
@@ -372,10 +368,7 @@ function setupButtonClickHandler(
 					toggleTheme();
 				});
 			} break;
-			case "Projects": {
-				// TODO: just scroll to projects section element
-				// scrollTo("projects");
-			} break;
+			default: {} break;
 		}
 	}
 }
@@ -425,8 +418,6 @@ function setupImagesForDOM() {
 	);
 }
 
-// TODO: add the light/dark theme toggle
-// // and add to user's local storage
 function setupNav() {
 
 	nav.el.appendChild(logoSvg.imageEl);	
@@ -451,8 +442,6 @@ function setupDesignTools() {
 	body.parentElement.appendChild(dt.el);
 }
 
-// TODO: use footer for the copyright stuff
-// // make separate thing for contact for these buttons
 function setupFooter() {
 	const footer = document.createElement("footer");
 
@@ -468,7 +457,6 @@ function setupProjectsPageContent() {
 // init contact buttons
 function setupContact() {
 
-	// TODO: finish putting in the other svgs
 	ContactButtons = {
 		github:   new Button({id: "github",   type: "normal", innerText: null,
                                   image: isLight() ? githubSvg : githubDarkModeSvg
