@@ -1,3 +1,4 @@
+//// @ts-check
 // main define
 let stylesModule;
 let designToolsModule;
@@ -11,8 +12,6 @@ let projectSection;
 
 let sunSvg;
 let logoSvg;
-let logo2Svg;
-let logo3Svg;
 let logoSvgForLight;
 let twitchDarkSvg;
 let linkedInSvg;
@@ -22,6 +21,11 @@ let moonSvg;
 let githubSvg;
 let githubDarkModeSvg;
 let qrcodeSvg;
+
+// TODO: use as a background
+// video behind everything
+// on the page
+let rustvid_element;
 
 const body = document.body;
 const globalThemeEl = document.head.parentElement;
@@ -46,6 +50,7 @@ function ProjectSection() {
 		ptext     : "Minimal visualizer: MIDI controlled, audio reactive, realtime processing of FFT. Configurable though toml files.",
 		titletext : "Demo",
 		href      : commonModule.RUST_VISUAL_ART_DEMO_LINK,
+		videolink : true
 	});
 
 	const rustneopixelcard = new ProjectCard({ 
@@ -88,7 +93,14 @@ function ProjectCard(opts = {
 	ptext    : "cardp",
 	linktext : "cardp",
     href     : "cardhref",
+	video    : false
 }) {
+
+	let video;
+	if (opts.video) {
+		video = document.createElement("video");
+		video.style.display = "none";
+	} 
 	
 	const cardlink  = document.createElement("a");
 	cardlink.classList.add("project-card");
@@ -105,9 +117,16 @@ function ProjectCard(opts = {
 	cardtitle.style.fontSize = "unset !important";
 	cardtitle.style.fontWeight = "lighter";
 
-	cardlink.appendChild(
-		cardtitle,
-	);
+	if (video) {
+		cardlink.append(
+			cardtitle,
+			video
+		);
+	} else {
+		cardlink.append(
+			cardtitle,
+		);
+	}
 
 	this.el = cardlink;
 
@@ -137,24 +156,8 @@ function ContentSection() {
 	return this;
 }
 
-function Logo() {
-	this.el = document.createElement("div");
-	this.el.appendChild(
-		globalThemeEl.getAttribute("data-theme") === "light"
-		? new svgModule.Svg("./images/logo-for-light.svg").imageEl
-		: new svgModule.Svg("./images/logo.svg").imageEl
-	);
-	this.el.classList.add("logo");
-	return this;
-}
-
 function NavBar() {
 	this.el = document.createElement("nav");
-	return this;
-}
-
-function ContactSection() {
-	this.el = document.createElement("div");
 	return this;
 }
 
@@ -173,8 +176,6 @@ const footer  = new Footer();
 const content = new ContentSection();
 
 const NavButtons = {
-	// home:     new Button({type: "nav-li", innerText: "Home",     id: "Home" }),
-	// about:    new Button({type: "nav-li", innerText: "About",    id: "About" }),
 	projects: new Button({type: "nav-li", innerText: "Projects", id: "Projects" }),
 	resume:   new Button({type: "nav-li", innerText: "Resume",   id: "Resume" }),
 	theme:    new Button({type: "nav-li", innerText: "theme",    id: "theme" }),
@@ -227,31 +228,24 @@ function Button(props = {
 			this.el.innerText = "";
 			this.el.appendChild(this.image.imageEl);
 		}
-		setupButtonClickHandler(this, "normal");
 	}
 
 	if (props.type === "nav-li") {
 		this.el                       = document.createElement("li");
 		this.el.id                    = props.id;
 		this.el.style.listStyle       = "none";
-		this.el.classList.add("navulli");
-		// this.el.style.backgroundColor = "#2F84D0";
 		this.el.style.borderRadius    = "10px";
-		// this.el.style.border          = "solid 1px black";
-		// this.el.style.color           = "white";
 		this.el.style.padding         = "5px";
 		this.el.style.textDecoration  = "none";
 		this.el.style.cursor          = "pointer";
+
+		this.el.classList.add("navulli");
 
 		if (props.id === "theme") {
 			this.el                       = document.createElement("li");
 			this.el.id                   = props.id;
 			this.el.classList.add("theme-toggle");
 			this.el.style.listStyle       = "none";
-			// this.el.style.backgroundColor = "#2F84D0";
-			// this.el.style.borderRadius    = "10px";
-			// this.el.style.border          = "solid 1px black";
-			// this.el.style.color           = "white";
 			this.el.style.padding         = "5px";
 			this.el.style.textDecoration  = "none";
 			this.el.style.cursor          = "pointer";
@@ -261,10 +255,7 @@ function Button(props = {
 			this.el                       = document.createElement("a");
 			this.el.id                    = props.id; 
 			this.el.classList.add("navulli");
-			// this.el.style.backgroundColor = "#2F84D0"
 			this.el.style.borderRadius    = "10px";
-			// this.el.style.border          = "solid 1px black";
-			// this.el.style.color           = "white";
 			this.el.style.padding         = "5px";
 			this.el.style.textDecoration  = "none";
 			this.el.style.cursor          = "pointer";
@@ -277,10 +268,7 @@ function Button(props = {
 			this.el                       = document.createElement("a");
 			this.el.id                    = props.id; 
 			this.el.classList.add("navulli");
-			// this.el.style.backgroundColor = "#2F84D0"
 			this.el.style.borderRadius    = "10px";
-			// this.el.style.border          = "solid 1px black";
-			// this.el.style.color           = "white";
 			this.el.style.padding         = "5px";
 			this.el.style.textDecoration  = "none";
 			this.el.style.cursor          = "pointer";
@@ -399,7 +387,7 @@ function initStyles() {
 function setupImagesForDOM() {
 	NavButtons.theme.el.innerText = "";	
 
-	if (globalThemeEl.getAttribute("data-theme") === "light") {
+	if (isLight()) {
 		logoSvgForLight.imageEl.style.display = "block";
 		logoSvg.imageEl.style.display         = "none";
 		sunSvg.imageEl.style.display          = "none";
