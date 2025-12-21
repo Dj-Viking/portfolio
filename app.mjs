@@ -579,16 +579,6 @@ async function enterPip(_clickev, src, card) {
 		}
 		videl = document.createElement("video");
 
-		if (videl.webkitSupportsPresentationMode 
-			&& videl.webkitSupportsPresentationMode("picture-in-picture")
-			&& typeof videl.webkitSetPresentationMode === "function" 
-		){
-		    videl.webkitSetPresentationMode(videl.webkitPresentationMode === "picture-in-picture" 
-				? "inline" 
-				: "picture-in-picture");
-			// Toggle PiP when the user clicks the button.
-		}
-
 		videl.onenterpictureinpicture = (e) => { onEnterPip(e, card); };
 		videl.onleavepictureinpicture = (e) => { onLeavePip(e, card); };
 		videl.src          = src; 
