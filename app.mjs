@@ -23,10 +23,11 @@ let githubSvg;
 let githubDarkModeSvg;
 let qrcodeSvg;
 
-// TODO: use as a background
-// video behind everything
-// on the page
-let rustvid_element;
+const vidContainer = document.createElement("div");
+
+function isMobile() {
+	return window.innerWidth <= 400;
+}
 
 const body = document.body;
 
@@ -200,6 +201,7 @@ function ProjectCard(opts = {
 	
 }
 
+
 function ContentSection() {
 	this.el = document.createElement("section");
 	this.el.classList.add("hero");
@@ -212,10 +214,13 @@ function ContentSection() {
 	h1Semantic.innerText = "Anders Ackerman";
 	pSemantic.innerText = "Software Engineer";
 
-	divContainer.appendChild(h1Semantic);
-	divContainer.appendChild(pSemantic);
+	divContainer.append(
+		h1Semantic, 
+		pSemantic,
+		vidContainer
+	);
 
-	this.el.appendChild(divContainer);
+	this.el.append(divContainer);
 
 	// TODO: canvas in the section??
 	// or some video media
@@ -582,13 +587,21 @@ async function enterPip(_clickev, src, card) {
 		videl.onenterpictureinpicture = (e) => { onEnterPip(e, card); };
 		videl.onleavepictureinpicture = (e) => { onLeavePip(e, card); };
 		videl.src          = src; 
-		videl.height       = 0;
-		videl.width        = 0;
 		videl.volume       = 0.3;
 		videl.autoplay     = false;
 		videl.onloadeddata = async (e) => {
-			console.log("loaded", e)
-			pipwindow = await videl.requestPictureInPicture();
+			if (!isMobile()) {
+				pipwindow = await videl.requestPictureInPicture();
+			} else {
+				vidContainer.innerHTML = "";
+				vidContainer.style.height = "auto"; 
+				vidContainer.style.width = "100%"; 
+				videl.height = 300;
+				videl.width = 300;
+				videl.controls = true;
+				vidContainer.append(videl);
+				videl.play();
+			}
 		}
 
 		r(null);
