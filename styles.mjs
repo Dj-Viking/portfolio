@@ -145,22 +145,6 @@ export function Styles() {
 	  background: var(--primary);
 	}
 
-	/* ===== About Section ===== */
-	.about {
-	  max-width: 1100px;
-	  margin: 3rem auto;
-	  padding: 0 2rem;
-	  text-align: center;
-	}
-	.about h2 {
-	  font-size: 2rem;
-	  margin-bottom: 1rem;
-	}
-	.about p {
-	  font-size: 1.1rem;
-	  color: var(--text-muted);
-	}
-
 	/* ===== Projects Section ===== */
 	.projects {
 	  background: var(--section-alt);

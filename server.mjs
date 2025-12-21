@@ -11,6 +11,21 @@ const PORT = 6969;
 
 const handleGetRequest = (req, res) => {
     switch(true) {
+		case req.url.includes(".mp4"): {
+            fs.readFile("./" + req.url, (err, data) => {
+                if (err && err.code === "ENOENT") {
+                    console.log("\x1b[35m", "file not found\n", err.message, "\n", "\x1b[00m");
+                    res.writeHead(404, "not found");
+                    return res.end("not found");
+                }
+
+                const headers = { "Content-Type": "video/mp4" };
+
+                res.writeHead(200, headers);
+                res.end(data, "utf-8");
+            });
+
+		} break;
 		case req.url.includes(".pdf"): {
             fs.readFile("./" + req.url, (err, data) => {
                 if (err && err.code === "ENOENT") {
