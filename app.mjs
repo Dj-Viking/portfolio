@@ -9,6 +9,7 @@ let commonModule;
 
 let ContactButtons;
 let projectSection;
+let videl;
 
 let sunSvg;
 let logoSvg;
@@ -28,6 +29,19 @@ let qrcodeSvg;
 let rustvid_element;
 
 const body = document.body;
+
+// close picture in picture element if it's open
+document.onkeydown = (e) => {
+	switch(e.key) {
+		case "Escape": {
+			if (document.pictureInPictureElement !== null) {
+				document.exitPictureInPicture();
+			};
+		} break;
+		default: break;
+	}
+};
+
 const globalThemeEl = document.head.parentElement;
 
 function ProjectSection() {
@@ -46,32 +60,19 @@ function ProjectSection() {
 	// TODO: make background a demo video?
 	// yes!!
 	const rustvisualartcard = new ProjectCard({ 
-		linktext  : "Rust Visual Art",
-		ptext     : "Minimal visualizer: MIDI controlled, audio reactive, realtime processing of FFT. Configurable though toml files.",
-		titletext : "Demo",
-		href      : commonModule.RUST_VISUAL_ART_DEMO_LINK,
-		videolink : true
+		...commonModule.ProjectMap.RustVisualArt,
 	});
 
 	const rustneopixelcard = new ProjectCard({ 
-		linktext  : "Rust with ESP32 hardware",
-		ptext     : "Manually driving GRB neopixels with Rust on ESP32-C6 SOC",
-		titletext : "Demo",
-		href      : commonModule.RUST_NEO_PIXEL_DEMO_LINK,
+		...commonModule.ProjectMap.RustNeoPixel,
 	});
 
 	const ledmatrixcard = new ProjectCard({ 
-		linktext  : "LED Art Matrix",
-		ptext     : "TypeScript React project. HTML canvas controlled by midi and audio FFT",
-		titletext : "Demo",
-		href      : commonModule.LED_ART_MATRIX_DEMO_LINK,
+		...commonModule.ProjectMap.LEDArtMatrix,
 	});
 
 	const cobolmainframecard = new ProjectCard({ 
-		linktext  : "COBOL",
-		ptext     : "Studying with GNUCobol",
-		titletext : "Demo",
-		href      : commonModule.COBOL_MAINFRAME_DEMO_LINK,
+		...commonModule.ProjectMap.COBOLStudy,
 	});
 
 	const projectcards = [
@@ -89,48 +90,114 @@ function ProjectSection() {
 }
 
 function ProjectCard(opts = {
-	titletext: "cardtitle",
+	demotext : "cardtitle",
+	repotext : "repotext",
 	ptext    : "cardp",
-	linktext : "cardp",
+	name     : "cardp",
     href     : "cardhref",
-	video    : false
+	video    : false,
+	videosrc : "",
 }) {
 
-	let video;
 	if (opts.video) {
-		video = document.createElement("video");
-		video.style.display = "none";
-	} 
-	
-	const cardlink  = document.createElement("a");
-	cardlink.classList.add("project-card");
-	cardlink.target       = "_blank";
-	cardlink.innerText    = opts.linktext + `\n - ${opts.ptext}`;
-	cardlink.href         = opts.href;
-	cardlink.style.cursor = "pointer";
-	cardlink.style.fontSize = "20px";
-	cardlink.style.fontWeight = 1000;
 
+		const faderp = document.createElement("p");
+		faderp.style.display = "none";
+		faderp.innerText = "Volume: 0.3";
 
-	const cardtitle = document.createElement("p");
-	cardtitle.innerText = opts.titletext;
-	cardtitle.style.fontSize = "unset !important";
-	cardtitle.style.fontWeight = "lighter";
+		const fader = document.createElement("input");
+		fader.style.display = "none";
+		fader.type = "range";
+		fader.oninput = (e) => {
+			faderp.innerText = "Volume: " + e.target.value;
+			videl.volume = Number(e.target.value);
+		}
+		fader.defaultValue = 0.3;
+		fader.max = 1;
+		fader.min = 0;
+		fader.step = .001;
 
-	if (video) {
+		this.showcontrols = () => {
+			fader.style.display  = "block";
+			faderp.style.display = "block";
+
+			fader.value          = 0.3;
+			faderp.innerText     = "0.3";
+		}
+
+		this.hidecontrols = () => {
+			fader.style.display = "none";
+			faderp.style.display = "none";
+		}
+
+		const cardlink  = document.createElement("a");
+		cardlink.classList.add("project-card");
+		cardlink.innerText    = opts.name + `\n - ${opts.ptext}`;
+		cardlink.style.cursor = "auto";
+		cardlink.style.fontSize = "20px";
+		cardlink.style.fontWeight = 1000;
+
+		const demop = document.createElement("p");
+		demop.id = opts.name
+		demop.innerText = opts.demotext;
+		demop.style.fontSize = "unset !important";
+		demop.style.fontWeight = "lighter";
+		demop.style.border = "solid #00FF00 1px";
+		demop.style.borderRadius = "10px";
+		demop.style.width = "65px";
+		demop.style.paddingLeft = "4px";
+		demop.style.cursor = "pointer";
+		demop.style.margin = "0 auto";
+
+		// enter pip mode for video
+		demop.onclick = (e) => {
+			console.log("start pip");
+			enterPip(e, opts.videosrc, this);
+			fader.style.display = "block";
+			faderp.style.display = "block";
+		};
+
 		cardlink.append(
-			cardtitle,
-			video
+			demop,
+			fader,
+			faderp
 		);
+
+		this.el = cardlink;
+
+		return this;
+
 	} else {
+
+		const cardlink  = document.createElement("a");
+		cardlink.classList.add("project-card");
+		cardlink.target       = "_blank";
+		cardlink.innerText    = opts.name + `\n - ${opts.ptext}`;
+		cardlink.href         = opts.href;
+		cardlink.style.cursor = "pointer";
+		cardlink.style.fontSize = "20px";
+		cardlink.style.fontWeight = 1000;
+
+		const demop = document.createElement("p");
+		demop.innerText = opts.demotext;
+		demop.style.fontSize = "unset !important";
+		demop.style.fontWeight = "lighter";
+		demop.style.border = "solid #00FF00 1px";
+		demop.style.borderRadius = "10px";
+		demop.style.width = "170px";
+		demop.style.paddingLeft = "4px";
+		demop.style.cursor = "pointer";
+		demop.style.margin = "0 auto";
+
 		cardlink.append(
-			cardtitle,
+			demop,
 		);
+
+		this.el = cardlink;
+
+		return this;
 	}
-
-	this.el = cardlink;
-
-	return this;
+	
 }
 
 function ContentSection() {
@@ -482,6 +549,49 @@ function setupHomePageContent() {
 	body.appendChild(content.el);
 	body.appendChild(projectSection.el);
 }
+
+// play video with picture in picture mode
+let pipwindow;
+
+function onEnterPip(e, card) {
+	console.log("enter pip event", e);
+	card.showcontrols();
+	videl.pause();
+	videl.currentTime = 0;
+
+	setTimeout(() => {
+		videl.play();
+	}, 100);
+}
+
+function onLeavePip(e, card) {
+	console.log("leave pip event", e);
+	card.hidecontrols();
+	videl.pause();
+}
+
+async function enterPip(_clickev, src, card) {
+
+	console.log("click enter pip", _clickev);
+	await new Promise(async r => {
+		videl = document.createElement("video");
+
+		videl.onenterpictureinpicture = (e) => { onEnterPip(e, card); };
+		videl.onleavepictureinpicture = (e) => { onLeavePip(e, card); };
+		videl.src          = src; 
+		videl.height       = 0;
+		videl.width        = 0;
+		videl.volume       = 0.3;
+		videl.autoplay     = false;
+		videl.onloadeddata = async (e) => {
+			console.log("loaded", e)
+			pipwindow = await videl.requestPictureInPicture();
+		}
+
+		r(null);
+	});
+}
+
 
 function buildHomePage() {
 	console.log("build homepage");
