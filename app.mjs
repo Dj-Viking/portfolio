@@ -587,7 +587,7 @@ async function enterPip(_clickev, src, card) {
 		videl.onenterpictureinpicture = (e) => { onEnterPip(e, card); };
 		videl.onleavepictureinpicture = (e) => { onLeavePip(e, card); };
 		videl.src          = src; 
-		videl.volume       = 0.3;
+		videl.volume       = 0.1;
 		videl.autoplay     = false;
 		videl.onloadeddata = async (e) => {
 			if (!isMobile()) {
@@ -600,7 +600,9 @@ async function enterPip(_clickev, src, card) {
 				videl.width = 300;
 				videl.controls = true;
 				vidContainer.append(videl);
-				videl.play();
+				setTimeout(() => {
+					videl.play();
+				}, 500);
 			}
 		}
 
