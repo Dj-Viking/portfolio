@@ -574,6 +574,9 @@ async function enterPip(_clickev, src, card) {
 
 	console.log("click enter pip", _clickev);
 	await new Promise(async r => {
+		if (videl) {
+			videl.pause();
+		}
 		videl = document.createElement("video");
 
 		videl.onenterpictureinpicture = (e) => { onEnterPip(e, card); };
