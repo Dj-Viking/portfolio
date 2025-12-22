@@ -596,9 +596,12 @@ async function enterPip(_clickev, src, card) {
 				vidContainer.innerHTML = "";
 				vidContainer.style.height = "auto"; 
 				vidContainer.style.width = "100%"; 
-				videl.height = 300;
-				videl.width = 300;
+				videl.height   = 300;
+				videl.width    = 300;
 				videl.controls = true;
+				// muted so it doesn't jump scare the user lol
+				videl.muted    = true;
+				videl.volume   = 0.1;
 				vidContainer.append(videl);
 				setTimeout(() => {
 					videl.play();
