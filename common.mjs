@@ -30,7 +30,7 @@ export const ProjectMap = {
 		demotext  : "Demo",
 		href      : LED_ART_MATRIX_DEMO_LINK,
 		video     : true,
-		videosrc  : ""
+		videosrc  : "./videos/ledartmatrix.mp4"
 	},
 	COBOLStudy: {
 		name      : "COBOL",
