@@ -1,7 +1,7 @@
 import { WS_PORT } from "./common.mjs";
 
 (async () => {
-   
+
 	let ws;
 	if (window.location.href.includes("localhost")) {
 		ws = new WebSocket(`ws://localhost:${WS_PORT}`);
@@ -13,7 +13,7 @@ import { WS_PORT } from "./common.mjs";
 	let designTools     = await import("./designTools.mjs");
 	let localStorageMod = await import("./localStorage.mjs");
 	let common          = await import("./common.mjs");
-    
+
 	if (window.location.href.includes("localhost")) {
 		ws.addEventListener('message', async (event) => {
 			if (event.data.includes("mjs")) {
