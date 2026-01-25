@@ -600,11 +600,25 @@ async function enterPip(_clickev, src, card) {
 				videl.width    = 300;
 				videl.controls = true;
 				// muted so it doesn't jump scare the user lol
-				videl.muted    = true;
-				videl.volume   = 0.1;
+				videl.muted    = false;
+				videl.volume   = 0.0;
 				vidContainer.append(videl);
 				setTimeout(() => {
-					videl.play();
+					(async () => {
+						return new Promise(res => {
+							videl.play();
+							res();
+						});
+					})().then(() => {
+						console.log("running????")
+						let interval = setInterval(() => {
+							console.log("increase volume gradually", videl.volume)
+							videl.volume += 0.01 
+							if (videl.volume >= 0.3) {
+								clearInterval(interval);
+							}
+						}, 10);
+					});
 				}, 500);
 			}
 		}
