@@ -129,28 +129,28 @@ function ProjectCard(opts = {
 		}
 
 		this.hidecontrols = () => {
-			fader.style.display = "none";
+			fader.style.display  = "none";
 			faderp.style.display = "none";
 		}
 
 		const cardlink  = document.createElement("a");
 		cardlink.classList.add("project-card");
-		cardlink.innerText    = opts.name + `\n - ${opts.ptext}`;
-		cardlink.style.cursor = "auto";
-		cardlink.style.fontSize = "20px";
+		cardlink.innerText        = opts.name + `\n - ${opts.ptext}`;
+		cardlink.style.cursor     = "auto";
+		cardlink.style.fontSize   = "20px";
 		cardlink.style.fontWeight = 1000;
 
 		const demop = document.createElement("p");
 		demop.id = opts.name
 		demop.innerText = opts.demotext;
-		demop.style.fontSize = "unset !important";
-		demop.style.fontWeight = "lighter";
-		demop.style.border = "solid #00FF00 1px";
+		demop.style.fontSize     = "unset !important";
+		demop.style.fontWeight   = "lighter";
+		demop.style.border       = "solid #00FF00 1px";
 		demop.style.borderRadius = "10px";
-		demop.style.width = "65px";
-		demop.style.paddingLeft = "4px";
-		demop.style.cursor = "pointer";
-		demop.style.margin = "0 auto";
+		demop.style.width        = "65px";
+		demop.style.paddingLeft  = "4px";
+		demop.style.cursor       = "pointer";
+		demop.style.margin       = "0 auto";
 
 		// enter pip mode for video
 		demop.onclick = (e) => {
@@ -174,23 +174,23 @@ function ProjectCard(opts = {
 
 		const cardlink  = document.createElement("a");
 		cardlink.classList.add("project-card");
-		cardlink.target       = "_blank";
-		cardlink.innerText    = opts.name + `\n - ${opts.ptext}`;
-		cardlink.href         = opts.href;
-		cardlink.style.cursor = "pointer";
-		cardlink.style.fontSize = "20px";
+		cardlink.target           = "_blank";
+		cardlink.innerText        = opts.name + `\n - ${opts.ptext}`;
+		cardlink.href             = opts.href;
+		cardlink.style.cursor     = "pointer";
+		cardlink.style.fontSize   = "20px";
 		cardlink.style.fontWeight = 1000;
 
 		const demop = document.createElement("p");
 		demop.innerText = opts.demotext;
-		demop.style.fontSize = "unset !important";
-		demop.style.fontWeight = "lighter";
-		demop.style.border = "solid #00FF00 1px";
+		demop.style.fontSize     = "unset !important";
+		demop.style.fontWeight   = "lighter";
+		demop.style.border       = "solid #00FF00 1px";
 		demop.style.borderRadius = "10px";
-		demop.style.width = "170px";
-		demop.style.paddingLeft = "4px";
-		demop.style.cursor = "pointer";
-		demop.style.margin = "0 auto";
+		demop.style.width        = "170px";
+		demop.style.paddingLeft  = "4px";
+		demop.style.cursor       = "pointer";
+		demop.style.margin       = "0 auto";
 
 		cardlink.append(
 			demop,
@@ -567,7 +567,21 @@ function onEnterPip(e, card) {
 	videl.currentTime = 0;
 
 	setTimeout(() => {
-		videl.play();
+		(async () => {
+			console.log("sdjfjd");
+			return new Promise(res => {
+				videl.play();
+				res();
+			});
+		})().then(() => {
+			let interval = setInterval(() => {
+				console.log("increase volume gradually", videl.volume)
+				videl.volume += 0.01 
+				if (videl.volume >= 0.3) {
+					clearInterval(interval);
+				}
+			}, 10);
+		});
 	}, 100);
 }
 
@@ -606,6 +620,7 @@ async function enterPip(_clickev, src, card) {
 				vidContainer.append(videl);
 				setTimeout(() => {
 					(async () => {
+						console.log("sdjfjd");
 						return new Promise(res => {
 							videl.play();
 							res();
