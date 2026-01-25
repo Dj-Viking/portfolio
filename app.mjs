@@ -9,6 +9,10 @@ let commonModule;
 
 let ContactButtons;
 let projectSection;
+
+/**
+ * @type {HTMLVideoElement} 
+ */
 let videl;
 
 let sunSvg;
@@ -58,8 +62,6 @@ function ProjectSection() {
 	projectgrid.classList.add("project-grid");
 	this.el.appendChild(projectgrid);
 
-	// TODO: make background a demo video?
-	// yes!!
 	const rustvisualartcard = new ProjectCard({ 
 		...commonModule.ProjectMap.RustVisualArt,
 	});
