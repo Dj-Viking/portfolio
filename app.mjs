@@ -610,7 +610,6 @@ async function enterPip(_clickev, src, card) {
 							res();
 						});
 					})().then(() => {
-						console.log("running????")
 						let interval = setInterval(() => {
 							console.log("increase volume gradually", videl.volume)
 							videl.volume += 0.01 
