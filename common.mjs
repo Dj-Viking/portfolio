@@ -21,7 +21,7 @@ export const ProjectMap = {
 		ptext     : "Manually driving GRB neopixels with Rust on ESP32-C6 SOC",
 		demotext  : "Demo",
 		href      : RUST_NEO_PIXEL_DEMO_LINK,
-		video     : true,
+		video     : false,
 		videosrc  : ""
 	},
 	LEDArtMatrix: {
