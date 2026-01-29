@@ -560,6 +560,16 @@ function setupHomePageContent() {
 // play video with picture in picture mode
 let pipwindow;
 
+function adjustVolumeGradually() {
+	let interval = setInterval(() => {
+		console.log("increase volume gradually", videl.volume)
+		videl.volume += 0.01 
+		if (videl.volume >= 0.3) {
+			clearInterval(interval);
+		}
+	}, 10);
+}
+
 function onEnterPip(e, card) {
 	console.log("enter pip event", e);
 	card.showcontrols();
@@ -568,20 +578,11 @@ function onEnterPip(e, card) {
 
 	setTimeout(() => {
 		(async () => {
-			console.log("sdjfjd");
 			return new Promise(res => {
 				videl.play();
 				res();
 			});
-		})().then(() => {
-			let interval = setInterval(() => {
-				console.log("increase volume gradually", videl.volume)
-				videl.volume += 0.01 
-				if (videl.volume >= 0.3) {
-					clearInterval(interval);
-				}
-			}, 10);
-		});
+		})().then(adjustVolumeGradually);
 	}, 100);
 }
 
@@ -625,15 +626,7 @@ async function enterPip(_clickev, src, card) {
 							videl.play();
 							res();
 						});
-					})().then(() => {
-						let interval = setInterval(() => {
-							console.log("increase volume gradually", videl.volume)
-							videl.volume += 0.01 
-							if (videl.volume >= 0.3) {
-								clearInterval(interval);
-							}
-						}, 10);
-					});
+					})().then(adjustVolumeGradually);
 				}, 500);
 			}
 		}
