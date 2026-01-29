@@ -1,1 +1,1 @@
-<img src="./images/qr-code.svg"/> 
+<a href="https://dj-viking.github.io/portfolio"><img src="./images/qr-code.svg"/></a>
