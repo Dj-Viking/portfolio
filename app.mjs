@@ -507,7 +507,7 @@ function setupDesignTools() {
 function setupFooter() {
 	const footer = document.createElement("footer");
 
-	footer.innerText = "© 2025 Anders Ackerman. All rights reserved";
+	footer.innerText = "© 2026 Anders Ackerman. All rights reserved";
 
 	body.appendChild(footer);
 }
