@@ -248,6 +248,8 @@ function Footer() {
 const nav     = new NavBar();
 const footer  = new Footer();
 const content = new ContentSection();
+let contactcontainer;
+let homecontent;
 
 const NavButtons = {
 	projects: new Button({type: "nav-li", innerText: "Projects", id: "Projects" }),
@@ -517,29 +519,16 @@ function setupProjectsPageContent() {
 }
 
 // init contact buttons
-function setupContact() {
+function setupContact(contentel) {
 
-	ContactButtons = {
-		github:   new Button({id: "github",   type: "normal", innerText: null,
-                                  image: isLight() ? githubSvg : githubDarkModeSvg
-
-        }), 
-		twitch:   new Button({id: "twitch",   type: "normal", innerText: null,
-                                  image: isLight() ? twitchDarkSvg : twitchLightSvg 
-
-		}),
-		linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
-                                  image: linkedInSvg
-
-		}), 
-		mail:     new Button({id: "mail",     type: "normal", innerText: null,
-                                  image: mailSvg 
-
-		}), 
+	if (contactcontainer && contactcontainer.parentElement !== null) {
+		contentel.removeChild(contactcontainer);
 	}
 
-	const contactcontainer = document.createElement("section");
+	contactcontainer = document.createElement("section");
+	contactcontainer.id = "contactcontainer";
 	contactcontainer.style.display = "flex";
+	contactcontainer.style.width = "100%";
 	contactcontainer.style.flexDirection = "row";
 	contactcontainer.style.justifyContent = "space-around";
 	contactcontainer.style.padding = "1.4rem 1.8rem";
@@ -549,12 +538,20 @@ function setupContact() {
 		contactcontainer.appendChild(li.el);
 	}
 
-	body.appendChild(contactcontainer);
+	contentel.appendChild(contactcontainer);
 }
 
 function setupHomePageContent() {
-	body.appendChild(content.el);
-	body.appendChild(projectSection.el);
+	homecontent = document.createElement("div");
+	homecontent.style.display = "flex";
+	homecontent.style.flexDirection = "column";
+
+	homecontent.append(
+		content.el,
+		projectSection.el
+	);
+
+	body.appendChild(homecontent);
 }
 
 // play video with picture in picture mode
@@ -637,13 +634,32 @@ async function enterPip(_clickev, src, card) {
 
 
 function buildHomePage() {
+
+	ContactButtons = {
+		github:   new Button({id: "github",   type: "normal", innerText: null,
+                                  image: isLight() ? githubSvg : githubDarkModeSvg
+
+        }), 
+		twitch:   new Button({id: "twitch",   type: "normal", innerText: null,
+                                  image: isLight() ? twitchDarkSvg : twitchLightSvg 
+
+		}),
+		linkedin: new Button({id: "linkedin", type: "normal", innerText: null,
+                                  image: linkedInSvg
+
+		}), 
+		mail:     new Button({id: "mail",     type: "normal", innerText: null,
+                                  image: mailSvg 
+
+		}), 
+	}
 	console.log("build homepage");
 	body.innerHTML = "";
 
 	setupNav();
 	setupProjectsPageContent();
 	setupHomePageContent();
-	setupContact();
+	setupContact(content.el);
 	setupFooter();
 }
 

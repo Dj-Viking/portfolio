@@ -117,6 +117,7 @@ export function Styles() {
 	  display: flex;
 	  align-items: center;
 	  justify-content: center;
+	  flex-direction: column;
 	  padding: 2rem 1rem;
 	  background: var(--section-alt);
 	  text-align: center;
