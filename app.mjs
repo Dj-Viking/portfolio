@@ -15,6 +15,9 @@ let projectSection;
  */
 let videl;
 
+let loadingSVG;
+let videoLoaded = false;
+
 let sunSvg;
 let logoSvg;
 let logoSvgForLight;
@@ -56,7 +59,12 @@ function ProjectSection() {
 
 	const h2Title = document.createElement("h2");
 	h2Title.innerText = "Projects";
-	this.el.appendChild(h2Title);
+	this.el.appendChild(
+		h2Title
+	);
+	this.el.prepend(
+		loadingSVG.imageEl
+	);
 
 	const projectgrid = document.createElement("div");
 	projectgrid.classList.add("project-grid");
@@ -103,6 +111,7 @@ function ProjectCard(opts = {
 }) {
 
 	if (opts.video) {
+		console.log("title", opts.name);
 
 		const faderp = document.createElement("p");
 		faderp.style.display = "none";
@@ -160,11 +169,17 @@ function ProjectCard(opts = {
 			faderp.style.display = "block";
 		};
 
+		loadingSVG.imageEl.style.display = "none";
+		loadingSVG.imageEl.style.margin = "0 auto";
+		loadingSVG.imageEl.style.marginTop = "1rem";
+		loadingSVG.imageEl.style.marginBottom = "1rem";
+
 		cardlink.append(
 			demop,
 			fader,
 			faderp
 		);
+
 
 		this.el = cardlink;
 
@@ -191,6 +206,7 @@ function ProjectCard(opts = {
 		demop.style.paddingLeft  = "4px";
 		demop.style.cursor       = "pointer";
 		demop.style.margin       = "0 auto";
+		demop.style.textAlign    = "center";
 
 		cardlink.append(
 			demop,
@@ -569,6 +585,17 @@ function adjustVolumeGradually() {
 
 function onEnterPip(e, card) {
 	console.log("enter pip event", e);
+	videoLoaded = true;
+
+	setTimeout(() => {
+		(async () => {
+			return new Promise(res => {
+				loadingSVG.imageEl.style.display = "none";
+				res();
+			});
+		})();
+	}, 1);
+
 	card.showcontrols();
 	videl.pause();
 	videl.currentTime = 0;
@@ -593,6 +620,7 @@ async function enterPip(_clickev, src, card) {
 
 	console.log("click enter pip", _clickev);
 	await new Promise(async r => {
+		videoLoaded = false;
 		if (videl) {
 			videl.pause();
 		}
@@ -603,7 +631,13 @@ async function enterPip(_clickev, src, card) {
 		videl.src          = src; 
 		videl.volume       = 0.1;
 		videl.autoplay     = false;
+
+		if (!videoLoaded) {
+			loadingSVG.imageEl.style.display = "block";
+		}
+
 		videl.onloadeddata = async (e) => {
+			videoLoaded = true;
 			if (!isMobile()) {
 				pipwindow = await videl.requestPictureInPicture();
 			} else {
@@ -618,9 +652,9 @@ async function enterPip(_clickev, src, card) {
 				vidContainer.append(videl);
 				setTimeout(() => {
 					(async () => {
-						console.log("sdjfjd");
 						return new Promise(res => {
 							videl.play();
+							loadingSVG.imageEl.style.display = "none";
 							res();
 						});
 					})().then(adjustVolumeGradually);
@@ -675,6 +709,9 @@ function initImages() {
 	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
 	logoSvg           = new svgModule.Svg("./images/12-14-2025-logo.svg", 40, 40);
 	logoSvgForLight   = new svgModule.Svg("./images/12-14-2025-logo-light.svg", 40, 40);
+
+	loadingSVG        = new svgModule.Svg("./images/loading.svg", 40, 40);
+	loadingSVG.imageEl.classList.add("spin-animation");
 }
 
 // main

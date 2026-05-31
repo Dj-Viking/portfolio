@@ -147,6 +147,17 @@ export function Styles() {
 	}
 
 	/* ===== Projects Section ===== */
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	.spin-animation {
+		animation: spin 2s linear infinite;
+	}
 	.projects {
 	  background: var(--section-alt);
 	  padding: 3rem 2rem;
