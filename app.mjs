@@ -111,7 +111,6 @@ function ProjectCard(opts = {
 }) {
 
 	if (opts.video) {
-		console.log("title", opts.name);
 
 		const faderp = document.createElement("p");
 		faderp.style.display = "none";
