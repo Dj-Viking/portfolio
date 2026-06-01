@@ -250,16 +250,6 @@ function NavBar() {
 	return this;
 }
 
-function Footer() {
-	this.el = document.createElement("div");
-
-	this.el.style.display = "flex";
-	this.el.style.flexDirection = "row";
-	this.el.style.justifyContent = "space-around";
-
-	return this;
-}
-
 const nav     = new NavBar();
 const content = new ContentSection();
 let contactcontainer;
