@@ -1,13 +1,28 @@
-//// @ts-check
+// @ts-check
 // main define
+
+/** @type {typeof import("./styles.mjs")} */
 let stylesModule;
+
+/** @type {typeof import("./designTools.mjs")} */
 let designToolsModule;
+
+/** @type {typeof import("./localStorage.mjs")} */
 let localStorageModule;
+
+/** @type {ReturnType<typeof import("./localStorage.mjs")["LocalStorage"]>} */
 let myLocalStorage;
+
+/** @type {typeof import("./svg.mjs")} */
 let svgModule;
+
+/** @type {typeof import("./common.mjs")} */
 let commonModule;
 
+/** @type {Record<string, Button>} */
 let ContactButtons;
+
+/** @type {ProjectSection} */
 let projectSection;
 
 /**
@@ -15,20 +30,39 @@ let projectSection;
  */
 let videl;
 
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let loadingSVG;
 let videoLoaded = false;
 
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let sunSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let logoSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let logoSvgForLight;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let twitchDarkSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let linkedInSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let mailSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let twitchLightSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let moonSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let githubSvg;
+
+/** @type {ReturnType<typeof import("./svg.mjs")["Svg"]>} */
 let githubDarkModeSvg;
-let qrcodeSvg;
 
 const vidContainer = document.createElement("div");
 
@@ -102,7 +136,6 @@ function ProjectSection() {
 
 function ProjectCard(opts = {
 	demotext : "cardtitle",
-	repotext : "repotext",
 	ptext    : "cardp",
 	name     : "cardp",
     href     : "cardhref",
@@ -123,16 +156,16 @@ function ProjectCard(opts = {
 			faderp.innerText = "Volume: " + e.target.value;
 			videl.volume = Number(e.target.value);
 		}
-		fader.defaultValue = 0.3;
-		fader.max = 1;
-		fader.min = 0;
-		fader.step = .001;
+		fader.defaultValue = "0.3";
+		fader.max = "1";
+		fader.min = "0";
+		fader.step = ".001";
 
 		this.showcontrols = () => {
 			fader.style.display  = "block";
 			faderp.style.display = "block";
 
-			fader.value          = 0.3;
+			fader.value          = "0.3";
 			faderp.innerText     = "0.3";
 		}
 
@@ -146,7 +179,7 @@ function ProjectCard(opts = {
 		cardlink.innerText        = opts.name + `\n - ${opts.ptext}`;
 		cardlink.style.cursor     = "auto";
 		cardlink.style.fontSize   = "20px";
-		cardlink.style.fontWeight = 1000;
+		cardlink.style.fontWeight = "1000";
 
 		const demop = document.createElement("p");
 		demop.id = opts.name
@@ -193,7 +226,7 @@ function ProjectCard(opts = {
 		cardlink.href             = opts.href;
 		cardlink.style.cursor     = "pointer";
 		cardlink.style.fontSize   = "20px";
-		cardlink.style.fontWeight = 1000;
+		cardlink.style.fontWeight = "1000";
 
 		const demop = document.createElement("p");
 		demop.innerText = opts.demotext;
@@ -252,7 +285,11 @@ function NavBar() {
 
 const nav     = new NavBar();
 const content = new ContentSection();
+
+/** @type {HTMLElement} */
 let contactcontainer;
+
+/** @type {HTMLDivElement} */
 let homecontent;
 
 const NavButtons = {
@@ -266,10 +303,15 @@ function isLight(theme = null) {
 	return globalThemeEl.getAttribute("data-theme") === "light";
 }
 
+/**
+ * 
+ * @param {{ type: string, id: string, innerText: string | null, image?: any}} props 
+ * @returns 
+ */
 function Button(props = {
 	type:      "normal", 
 	id:        "test" + Math.random() * 1000,
-	innerText: null, 
+	innerText: "", 
 	image:     null,
 }) {
 	this.type      = props.type;
@@ -366,7 +408,7 @@ function Button(props = {
 /** 
  * @param theme {"dark" | "light"} dark or light theme
  * */
-function changeTheme(theme = null) {
+function changeTheme(theme = "dark") {
 
 	globalThemeEl.setAttribute(
 		"data-theme", 
@@ -425,6 +467,11 @@ function toggleTheme() {
 }
 
 // main setup
+/**
+ * 
+ * @param {Button} button 
+ * @param {"normal" | "nav-li"} type 
+ */
 function setupButtonClickHandler(
 	button, 
 	type = "normal", 
@@ -523,6 +570,10 @@ function setupProjectsPageContent() {
 }
 
 // init contact buttons
+/**
+ * 
+ * @param {HTMLElement} contentel 
+ */
 function setupContact(contentel) {
 
 	if (contactcontainer && contactcontainer.parentElement !== null) {
@@ -571,6 +622,11 @@ function adjustVolumeGradually() {
 	}, 10);
 }
 
+/**
+ * 
+ * @param {PictureInPictureEvent} e 
+ * @param {ProjectCard} card 
+ */
 function onEnterPip(e, card) {
 	console.log("enter pip event", e);
 	videoLoaded = true;
@@ -579,7 +635,7 @@ function onEnterPip(e, card) {
 		(async () => {
 			return new Promise(res => {
 				loadingSVG.imageEl.style.display = "none";
-				res();
+				res(null);
 			});
 		})();
 	}, 1);
@@ -592,12 +648,17 @@ function onEnterPip(e, card) {
 		(async () => {
 			return new Promise(res => {
 				videl.play();
-				res();
+				res(null);
 			});
 		})().then(adjustVolumeGradually);
 	}, 100);
 }
 
+/**
+ * 
+ * @param {PictureInPictureEvent} e 
+ * @param {ProjectCard} card 
+ */
 function onLeavePip(e, card) {
 	console.log("leave pip event", e);
 	card.hidecontrols();
@@ -643,7 +704,7 @@ async function enterPip(_clickev, src, card) {
 						return new Promise(res => {
 							videl.play();
 							loadingSVG.imageEl.style.display = "none";
-							res();
+							res(null);
 						});
 					})().then(adjustVolumeGradually);
 				}, 500);
@@ -686,23 +747,42 @@ function buildHomePage() {
 }
 
 function initImages() {
+	//@ts-ignore
 	sunSvg            = new svgModule.Svg("./images/sun.svg",         40, 40);
+	//@ts-ignore
 	moonSvg           = new svgModule.Svg("./images/moon.svg",        40, 40);
+	//@ts-ignore
 	githubSvg         = new svgModule.Svg("./images/github-mark.svg", 40, 40);
+	//@ts-ignore
 	githubDarkModeSvg = new svgModule.Svg("./images/github-mark-white.svg", 40, 40);
+	//@ts-ignore
 	twitchLightSvg    = new svgModule.Svg("./images/twitch-white.svg", 40, 40);
+	//@ts-ignore
 	twitchDarkSvg     = new svgModule.Svg("./images/twitch-dark.svg", 40, 40);
+	//@ts-ignore
 	linkedInSvg       = new svgModule.Svg("./images/linkedin.svg", 40, 40);
+	//@ts-ignore
 	mailSvg           = new svgModule.Svg("./images/mail.svg", 40, 40);
-	qrcodeSvg         = new svgModule.Svg("./images/qr-code.svg", 40, 40);
+	//@ts-ignore
 	logoSvg           = new svgModule.Svg("./images/12-14-2025-logo.svg", 40, 40);
+	//@ts-ignore
 	logoSvgForLight   = new svgModule.Svg("./images/12-14-2025-logo-light.svg", 40, 40);
 
+	//@ts-ignore
 	loadingSVG        = new svgModule.Svg("./images/loading.svg", 40, 40);
 	loadingSVG.imageEl.classList.add("spin-animation");
 }
 
 // main
+/**
+ * 
+ * @param {typeof import("../portfolio/app.mjs")} _appModule 
+ * @param {typeof import("./common.mjs")} commonMod 
+ * @param {typeof import("./styles.mjs")} stylesMod 
+ * @param {typeof import("./designTools.mjs")} designToolsMod 
+ * @param {typeof import("./localStorage.mjs")} localStorageMod 
+ * @param {typeof import("./svg.mjs")} svgMod 
+ */
 export function main(
 	_appModule,
 	commonMod,
@@ -714,6 +794,7 @@ export function main(
 	localStorageModule = localStorageMod;
 	svgModule          = svgMod;
 	commonModule       = commonMod;
+	// @ts-ignore
 	myLocalStorage     = new localStorageModule.LocalStorage();
 	stylesModule       = stylesMod;
 	designToolsModule  = designToolsMod;

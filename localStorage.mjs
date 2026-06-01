@@ -2,6 +2,11 @@
 export function LocalStorage() {
 	this.localStorage = window.localStorage;
 
+	/**
+	 * 
+	 * @param {boolean} _default 
+	 * @param {{ [key: string]: { key: string, val: string }}} initopts 
+	 */
 	this.init = (_default = true, initopts = {
 		entry: {
 			key: "key",
@@ -25,6 +30,11 @@ export function LocalStorage() {
 
 	}
 
+	/**
+	 * 
+	 * @param {{ method: "get" | "set", key: string, val?: any}} reqopts 
+	 * @returns 
+	 */
 	this.request = (reqopts = {
 		method: "get",
 		key:    null,
