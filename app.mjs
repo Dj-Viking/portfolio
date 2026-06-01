@@ -261,7 +261,6 @@ function Footer() {
 }
 
 const nav     = new NavBar();
-const footer  = new Footer();
 const content = new ContentSection();
 let contactcontainer;
 let homecontent;
